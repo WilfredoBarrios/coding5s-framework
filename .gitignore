@@ -1,29 +1,55 @@
-# --- Elixir & BEAM (Preservados de tu otro repo) ---
-/_build
-/cover
-/deps
-/doc
-/.fetch
-erl_crash.dump
-*.ez
-*.beam
-*.bat
-/config/*.secret.exs
-.elixir_ls/
+# ====================================================================
+# Coding5s Official Gitignore Blueprint
+# ====================================================================
 
-# --- Archivos Temporales de Microsoft Excel ---
-# Excel crea archivos ocultos que empiezan con ~$ cuando abres un archivo. 
-# Esto evita que se suban por accidente al repositorio.
+# --- Microsoft Excel & Office Temp Files ---
 ~$*.xlsx
+~$*.xlsm
 ~$*.xls
+*.tmp
+*.bak
+.directory
 
-# --- Python (Preventivo para el futuro) ---
+# --- System & Environment Configuration ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+*.cert
+
+# --- OS Specific Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Python & Cache Artefacts ---
 __pycache__/
 *.py[cod]
 *$py.class
-.venv/
-venv/
-ENV/
+.pytest_cache/
+.mypy_cache/
 
-# --- REGLA EXCLUIDA ---
-# Se eliminó '*.bat' para asegurar que "Iniciar CMD.bat" SÍ se incluya en el repositorio.
+# --- IDEs & Editors ---
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# --- Framework Generación Local ---
+# (Previene que tus pruebas locales inunden el repositorio principal)
+/pillar_1/created_courses/*
+!/pillar_1/created_courses/.gitkeep
+
+/pillar_3/created_courses/*
+!/pillar_3/created_courses/.gitkeep
