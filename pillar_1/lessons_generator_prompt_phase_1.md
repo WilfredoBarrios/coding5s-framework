@@ -59,4 +59,5 @@ Please follow these STRICT rules:
 
 Remember: DO NOT generate the curriculum table. Only provide the analytical blueprint.
 
+
 ```

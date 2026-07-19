@@ -1,10 +1,24 @@
-# ⚙️ Coding5s Creator Kits
+# 🗂️ Coding5s Creator Kits Repository
 
-This directory contains the **Master Source Files** for course generation.
-
-* **Purpose:** These files act as the active data engines (Excel-based) used to compile curricula, manage stateful prompts, and execute the Coding5s curriculum generation pipeline.
-* **Content:** Master ledger spreadsheets (`.xlsx`) and configuration templates.
-* **Warning:** Treat these files as the "Source of Truth." Modifications here directly impact the structure and quality of the generated student materials.
+This directory serves as the central hub for all **Coding5s Creator Kit Excel frameworks**. These kits are the operational engine of the framework, enabling the transformation of technical documentation and language requirements into structured, actionable micro-learning curricula.
 
 ---
-*For operational instructions on how to utilize these kits, refer to the [creator_kit_workflow_guide.md](../creator_kit_workflow_guide.md).*
+
+### 📂 Directory Structure
+
+*   **`/dart`**: Creator Kits for Dart language fundamentals and standard library workflows.
+*   **`/elixir`**: Creator Kits for functional programming paradigms, including core language fundamentals and OTP distributed systems.
+*   **`/python`**: Creator Kits for Python-based scripting, data science (Numpy/Pandas), and HTTP automation.
+
+---
+
+### 🚀 Getting Started
+
+1. **Accessing Kits:** Navigate into the respective language folder to access the available `.xlsx` Creator Kit templates.
+2. **Standard Workflow:** All kits operate under a unified architecture. Refer to the `CURRICULUM_GENERATOR.md` (located in the repository root) for instructions on:
+    * Syllabus generation (Phase 1-3).
+    * Variable injection and formula compilation.
+    * Deploying curriculum content to your practice environments.
+3. **Framework Maintenance:** Ensure that any updates to the master formulas or variable translation prompts are applied consistently across all language kits.
+
+*For methodology documentation, framework updates, and architectural blueprints, please visit the main [Coding5s Framework](https://coding5s.dev) repository.*
