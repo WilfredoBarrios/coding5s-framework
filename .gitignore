@@ -19,6 +19,7 @@
 *.pem
 *.key
 *.cert
+*.bat
 
 # --- OS Specific Files ---
 .DS_Store
@@ -28,7 +29,6 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-.bat
 
 # --- Python & Cache Artefacts ---
 __pycache__/
