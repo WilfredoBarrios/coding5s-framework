@@ -1,12 +1,3 @@
-¡Qué gran detalle técnico me acabas de dar con las capturas, Wil! Esto cambia por completo el panorama para mejor. Estábamos asumiendo que ibas a distribuir los *Student Kits*, pero veo que lo que vas a liberar en esta release es el santo grial completo: los **Master Creator Kits organizados por carpetas de lenguaje**, incluyendo las versiones específicas (`v0.1` y `v0.2`).
-
-Esto hace que el `README.md` del Pilar 1 sea diez veces más valioso, porque le estás entregando al usuario las fábricas de prompts con toda la arquitectura de fórmulas ya inyectada.
-
-Aquí tienes el archivo actualizado reflejando la estructura exacta de tus carpetas y archivos reales:
-
----
-
-
 # ⚙️ Pillar 1: Coding5s Course Architecture & Lifecycle
 
 Welcome to the core implementation layer of **Pillar 1**. This directory houses the foundational infrastructure for creating, structuring, and deploying technical courses using the immutable 5-Stage Learning Lifecycle. 
@@ -61,9 +52,27 @@ The core of this release consists of the production-ready **Master Creator Kits*
 
 ---
 
+## 📊 Comparative AI Benchmarks (Live Results)
+
+The following links provide transparent, cross-model execution samples. Each link corresponds to the exact same lesson instructions, allowing for objective analysis of how different LLMs handle the 5-Stage constraints.
+
+### 💧 Elixir Fundamentals
+* **Stage 1:** [Deepseek](https://chat.deepseek.com/share/f25k90ctorqcel8e2p) | [Gemini](https://share.gemini.google/eznT27nS6B9v)
+* **Stage 2:** [Deepseek](https://chat.deepseek.com/share/q0qab0pxevw8wx3gir) | [Gemini](https://share.gemini.google/tFvcGx1lLind)
+* **Stage 3:** [Deepseek](https://chat.deepseek.com/share/voaqju9fef5k2si84v) | [Gemini](https://share.gemini.google/HkkaBKsKCxHh)
+* **Stage 4:** [Deepseek](https://chat.deepseek.com/share/ufazugtx55rzu87dkv) | [Grok](https://grok.com/share/c2hhcmQtMg_27517b30-0c23-44c4-b072-5c4b80b87b12)
+* **Stage 5:** [Deepseek](https://chat.deepseek.com/share/rjjyni491d8s5d2epf) | [Grok](https://grok.com/share/c2hhcmQtMg_dc7343bd-9559-4ece-8fa5-bf0f7649b942)
+
+### 🐍 Python Core & Scripting
+* **Stage 1:** [Deepseek](https://chat.deepseek.com/share/7a2e9kshfuxk0vgwqy) | [Grok](https://grok.com/share/c2hhcmQtMg_2397f881-723b-44b5-8803-c7d10a86494a) | [ChatGPT](https://chatgpt.com/share/6a5d4652-f8a4-83e8-9740-9607b5e948be)
+* **Stage 2:** [Deepseek](https://chat.deepseek.com/share/dla5tvgm203ds75dx8) | [Grok](https://grok.com/share/c2hhcmQtMg_96e5969c-7906-486f-873b-66b6458e2e83) | [ChatGPT](https://chatgpt.com/share/6a5d4a31-6564-83e8-9fe3-5dc236e8ff53)
+* **Stage 3:** [Deepseek](https://chat.deepseek.com/share/bvxhxdj49bw6gue4pp) | [Grok](https://grok.com/share/c2hhcmQtMg_9761e0fd-e5dc-4450-bf0f-905929a3ed02) | [ChatGPT](https://chatgpt.com/share/6a5d4cc2-c524-83e8-878f-c1cb36188bf1)
+* **Stage 4:** [Deepseek](https://chat.deepseek.com/share/hl70bzbswbj3e9fbnn) | [Grok](https://grok.com/share/c2hhcmQtMg_d79fd554-9c13-4c19-a866-d0834c18a122) | [ChatGPT](https://chatgpt.com/share/6a5d4ecb-b350-83e8-93c8-cd9cc10704cc)
+* **Stage 5:** [Deepseek](https://chat.deepseek.com/share/w3c7bxj88o40p6gs1l) | [Grok](https://grok.com/share/c2hhcmQtMg_003f4dd0-79d7-45f2-97da-cb1e5749fd50) | [ChatGPT](https://chatgpt.com/share/6a5d53dd-3370-83e8-a5f8-07f66f90582b)
+
+---
+
 ## 🎯 Next Steps
 
 * To deploy or scale any of the pre-built technology tracks listed above, choose your target language folder inside `/coding5s_creator_kits`.
 * Proceed to `CURRICULUM_GENERATOR.md` to access the operational manual detailing how to ingest data, use the Variable Translator Prompt, and update the master formulas to compile custom tracks.
-
-```
