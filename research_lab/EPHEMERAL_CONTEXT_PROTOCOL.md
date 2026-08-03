@@ -1,22 +1,31 @@
 # ⚡ Ephemeral Context Protocol (ECP) & Micro-Ledger DSL
 
-## 📌 Abstract
-The **Ephemeral Context Protocol (ECP)** is an experimental architectural pattern for managing State Persistence and context injection in Large Language Models (LLMs). It utilizes a **Micro-Ledger DSL** (Domain Specific Language) — a highly compressed, Machine-to-Machine (M2M) markup language designed to be injected, executed, and terminated within a single prompt lifecycle.
+**[🚨 Status: Active R&D / Experimental Core]**  
+*Maintained by the Stateful5s / Coding5s Architecture Team*
 
-Originally developed as an engineering workaround for strict hardware and software limitations—such as spreadsheet formula character caps—and as a method to reduce token consumption in the stateful workflows of Coding5s, the Ephemeral Context Protocol (ECP) has since evolved into a compelling proposition for Headless AI systems. By relying on the LLM's latent semantic inference rather than verbose human prose, ECP explores how to maintain complex contextual state across repetitive interactions without bleeding tokens.
+> **Architecture Note:**  
+> The **Ephemeral Context Protocol (ECP)** defines the execution lifecycle, backend orchestration, and zero-state persistence model described below. For the underlying specification of the compressed non-human markup language used within ECP, refer to the **[M2M Semantic Notation Protocol](./M2M_SEMANTIC_NOTATION_PROTOCOL.md)**.
+
+---
+
+## 📌 Abstract
+The **Ephemeral Context Protocol (ECP)** is an experimental architectural pattern for managing State Persistence and context injection in Large Language Models (LLMs). It utilizes a **Micro-Ledger DSL** (Domain Specific Language)—a highly compressed, Machine-to-Machine (M2M) markup language designed to be injected, executed, and terminated within a single prompt lifecycle.
+
+Originally developed as an engineering workaround for strict hardware and software limitations—such as spreadsheet formula character caps in early versions of **Coding5s**—and as a method to reduce token consumption in stateful workflows, ECP has evolved into a compelling proposition for Headless AI systems. By relying on the LLM's latent semantic inference rather than verbose human prose, ECP explores how to maintain complex contextual state across repetitive interactions without bleeding tokens.
 
 ### Modern prompt engineering often hits a physical wall:
 
-Formula Length Limits: Spreadsheet software enforces strict limits (e.g., 8,192 characters per formula in Excel). Concatenating verbose human prose to generate dynamic prompts easily breaks this limit.
+1. **Formula & Payload Length Limits:** Spreadsheet software enforces strict limits (e.g., 8,192 characters per formula in Excel). Concatenating verbose human prose to generate dynamic prompts easily breaks this limit.
+2. **The "Hidden Prompt" Redundancy:** In web platforms or automated systems, users interact with UI elements (e.g., "Check my code"), which trigger backend API calls. Sending global rules, behavioral restrictions, and historical state in every single background prompt consumes thousands of unnecessary tokens, slowing down inference and diluting the model's focus.
 
-The "Hidden Prompt" Redundancy: In web platforms or automated systems, users interact with UI elements (e.g., "Check my code"), which trigger backend API calls. Sending global rules, behavioral restrictions, and historical state in every single background prompt consumes thousands of unnecessary tokens, slowing down inference and diluting the model's focus.
+---
 
 ## 💡 The Proposition: Ephemeral Context & Headless Orchestration
 Instead of writing instructions in natural language for every interaction, ECP proposes translating the system's architecture and current state into an ultra-dense M2M token stream. 
 
 This protocol shines brightest in a **Headless AI / Invisible Backend** environment where the end-user never sees a prompt.
 
-**The Ephemeral Lifecycle:**
+### The Ephemeral Lifecycle:
 1. **The Core (System Prompt):** A tiny, static "Firmware" dictionary is permanently embedded into the LLM's system instructions. It defines the grammar of the M2M language.
 2. **The Injection (Payload):** For each user interaction, the backend generates an ultra-compressed state string and sends it silently to the API.
 3. **Zero-Shot Semantic Inference:** The LLM's neural weights instantly decode the abbreviated tags (e.g., inferring that `SYN_FOR_COLON` means a missing colon in a Python for-loop) without requiring explicit prose definitions.
@@ -33,74 +42,80 @@ This is the static "decoder ring". In a production environment, this lives perma
 
 **Example of an optimized Firmware dictionary:**
 
+```text
 [BASE-LANGUAGE-RULES]
 Execute under strict M2M Stateful Context Protocol. Parse [SCL_STREAM] using this fixed schema (Values after ":" are dynamic literals inferred by LLM weights):
-```text
 - CTX:[ENV_SCOPE] -> Current environment or topic (e.g., PY_PANDAS, AWS_EC2).
 - STG:[1-5]       -> Current workflow stage (1=Init, 2=Debug, etc.).
 - ACH:[0-2]       -> User mastery or system stability level (0=Locked, 1=Stable, 2=Optimized).
 - FRC:[TYPE]      -> Cognitive friction or system bug injected (e.g., SYN_FOR_COLON).
 - QTY:[N]         -> Exact number of instances to generate.
 - BLK:[COMP_LIST] -> Mandatory output components separated by "+" (e.g., LSN+CODE+OUT).
+
 ```
 
-Layer 2: The Payload ([SCL_STREAM])
+### Layer 2: The Payload (`[SCL_STREAM]`)
 
 This is the dynamic string generated by your backend on the fly. It replaces paragraphs of repetitive instructions.
 
-Before (Human Prose - ~40 tokens):
-"The user is learning Python Core. They are currently in the debugging stage. Their understanding is basic. You must inject a syntax error regarding a missing colon in a for-loop. Keep your output to exactly 3 examples consisting of a lesson, code, and output."
+* **Before (Human Prose - ~40 tokens):**
+> *"The user is learning Python Core. They are currently in the debugging stage. Their understanding is basic. You must inject a syntax error regarding a missing colon in a for-loop. Keep your output to exactly 3 examples consisting of a lesson, code, and output."*
 
-After (Micro-Ledger DSL - ~10 tokens):
 
-```Plaintext
+* **After (Micro-Ledger DSL - ~10 tokens):**
+```text
 [SCL_STREAM] CTX:PY_CORE|STG:2|ACH:1|FRC:SYN_FOR_COLON|QTY:3|BLK:LSN+CODE+OUT
+
 ```
 
-Result: Massive reduction in token usage and Time-To-First-Token latency, while maintaining deterministic execution.
-Layer 3: The M2M Exit Contract (The Save State)
+
+
+**Result:** Massive reduction in token usage and Time-To-First-Token (TTFT) latency, while maintaining deterministic execution.
+
+### Layer 3: The M2M Exit Contract (The Save State)
 
 To ensure the context survives after the chat is cleared, enforce a strict output rule. The LLM must calculate the resulting state of the interaction and output it in the exact same DSL format at the very end.
 
-### The Prompt Directive:
+#### The Prompt Directive:
 
-"At the end of your interaction, calculate the new state. It is STRICTLY PROHIBITED to use natural language for this. Compile the new state by generating a single closing line under the tag [STATE] using the provided Firmware dictionary. Do not add any prose after this tag."
+> *"At the end of your interaction, calculate the new state. It is STRICTLY PROHIBITED to use natural language for this. Compile the new state by generating a single closing line under the tag [STATE] using the provided Firmware dictionary. Do not add any prose after this tag."*
 
-### The LLM Output:
-```Plaintext
+#### The LLM Output:
+
+```text
 [STATE] CTX:PY_CORE|STG:3|ACH:2|FRC:RESOLVED
+
 ```
 
-# 🚀 Future Applications & Call for Collaboration
+---
 
-The Ephemeral Context Protocol is currently a foundational idea, being tested within the initial architecture of the Coding5s framework. However, its potential may extend far beyond spreadsheet automation.
-## Potential Implementations:
+## 🚀 Primary Objective & Community Horizons
 
-#### EdTech Platforms: 
-A web-based coding platform (e.g., built on Elixir/Phoenix) could use ECP to track a student's hyper-specific progress across thousands of micro-lessons without storing massive chat logs, maintaining state purely through backend injection.
+### Primary Scope: Powering Stateful5s
 
-#### Automated Customer Support:
-Tracking user frustration levels (FRC:HIGH), topic contexts, and resolution stages across multiple ticket hand-offs invisibly.
+Within the **Coding5s Ecosystem**, ECP serves as the primary persistence engine for **Stateful5s**. It guarantees that infrastructure, network topologies, and programming states persist across multi-step lessons without suffering from context-window degradation or cloud dependency.
 
-#### Gaming & NPC Memory: 
-Creating continuous, evolving states for non-playable characters in dynamic environments using minimal token overhead.
+### Potential Community Implementations:
 
-# 🤝 Join the Exploration
+While built for Coding5s, ECP offers value to the broader open-source ecosystem:
+
+* **EdTech Platforms:** Web-based coding platforms (e.g., Elixir/Phoenix) tracking hyper-specific student progress across thousands of micro-lessons purely via backend injection.
+* **Automated Support:** Tracking user frustration levels (`FRC:HIGH`), topic contexts, and resolution stages across ticket hand-offs invisibly.
+* **Gaming & NPC Memory:** Creating evolving states for non-playable characters in dynamic environments using minimal token overhead.
+
+---
+
+## 🤝 Join the Exploration
 
 This repository serves as a proof-of-concept and an invitation. We believe that leveraging an LLM's innate ability to interpret compressed DSLs is an underexplored frontier in AI infrastructure.
 
 We invite the open-source community to:
 
-Fork this concept and test it across different models (DeepSeek, Claude, Llama).
+1. Fork this concept and test it across different models (DeepSeek, Claude, Llama).
+2. Propose optimizations to the DSL syntax.
+3. Build backend drivers (Elixir, Python, Node, Rust) to automate the Injection/Extraction loop.
+4. Share your findings and use-cases.
 
-Propose optimizations to the DSL syntax.
+*Maintained by the Stateful5s Architecture Team.*
 
-Build backend drivers (Python, Node, Elixir) to automate the Injection/Extraction loop.
-
-Share your findings and use-cases.
-
-If you find this architectural pattern useful, please open a PR, start a discussion, or implement it in your next MVP. Let's explore how much we can compress before the context breaks.
-
-### Maintained by the Stateful5s Architecture Team.
-
-## License: MIT
+**License:** MIT
