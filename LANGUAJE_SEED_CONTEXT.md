@@ -1,94 +1,473 @@
-# 🎯 The Language Seed Context Pattern: Overcoming Epistemic Debt in Low-Resource Technical Education
+# 🎯 The Language Seed Context Pattern
 
-Developed by **Wilfredo Barrios (2026)** as a core architectural pillar of the **Coding5s Methodology**.
+> **Experimental linguistic grounding for AI-assisted technical education in low-resource and underrepresented languages.**
 
----
-
-## 🧠 Introduction & Problem Statement
-
-The democratization of Large Language Models (LLMs) has introduced a widespread phenomenon known as **"Vibe Coding"**, where novice programmers rely on semantic intent over syntactic understanding. In technical education, this creates **Fragile Experts**: learners who can produce functional code through unrestricted AI assistance but possess dangerously low corrective competence when the AI is removed, an accumulation of what academic literature defines as **Epistemic Debt**.
-
-This problem triples when dealing with **low-resource or native languages**. Standard LLMs suffer from *syntactic bleeding*, forcing the word order and morphology of dominant regional languages (like Spanish or English) onto the target language, resulting in unnatural, culturally disconnected, and grammatically incorrect explanations.
-
-The **Language Seed Context Pattern** was designed to solve this. It acts as an isolated **cognitive micro-controller**—a highly dense, constraint-driven system prompt payload that anchors the LLM into the precise linguistic, phonological, and syntactic space of a minority language while maintaining strict pedagogical guardrails for software engineering concepts.
+Developed by **Wilfredo Barrios (2026)** within the **Coding5s ecosystem**.
 
 ---
 
-## 🏗️ Core Architectural Variables
+## 🧠 Overview
 
-The Language Seed Context pattern enforces five synchronous constraints on the LLM:
+Large Language Models can generate technical explanations in many human languages, but output quality is not equally reliable across languages.
 
-1. **Syntax Override (Anti-Colonial Grammar Control):** Explicitly maps the target language's structural word order (e.g., VSO, SOV) and commands the LLM to aggressively reject the Subject-Object-Verb (SVO) pattern of dominant languages.
-2. **Orthography Lock (Compiler Safety):** Forces the model to stick to standard ASCII apostrophes (`'`) for glottal stops or ejectives instead of decorative Unicode modifiers (`ʼ`), preventing tokenization glitches that break Markdown parsing or code execution.
-3. **Morphological Anchoring:** Isolates 2-3 specific grammatical markers (such as noun classifiers or aspect particles) to guarantee the text sounds completely natural to native speakers.
-4. **The Glossary Pattern (Epistemic Shield):** Imposes a rigid rule: `[English Term] (explained as [Descriptive Native Phrase])`. The code keywords remain in English (to avoid breaking the runtime environment), but the prose re-wires the concept natively to prevent copy-paste without comprehension.
-5. **String & Comment Enforcement (Execution Safety):** Completely isolates code commentary from execution blocks, demanding that human-readable logic (`#` or equivalent comment syntax) be strictly in the native language, while machine keywords stay in standard syntax. **CRITICAL:** It explicitly forbids translating English string literals or variable assets inside execution blocks if they alter the expected logical output of the verification scripts.
+For languages with comparatively limited digital, linguistic, educational, or model-training resources, AI-generated explanations may exhibit problems such as:
+
+- dominant-language grammatical interference,
+- unnatural sentence construction,
+- inconsistent orthography,
+- unnecessary borrowing,
+- invented terminology,
+- dialect mixing,
+- or technically correct concepts expressed through linguistically poor prose.
+
+The **Language Seed Context Pattern** explores a practical response:
+
+> **Provide the LLM with a compact, high-priority linguistic context before asking it to generate technical educational material.**
+
+Instead of relying only on the model's default representation of the target language, the Seed Context supplies selected information about how that language should be written and used.
+
+The objective is to improve linguistic grounding—not to claim perfect translation or native-level accuracy.
 
 ---
 
-## 🌎 Active Deployment
+## 🌱 What a Language Seed Context Is
 
-Currently, this Language Seed Context Pattern is actively deployed in production across the Coding5s ecosystem. It is the underlying engine powering our curricula for **Mayan languages** (Qʼeqchiʼ, Kʼicheʼ, Kaqchikel, Mam) and other **Latin American indigenous languages** (Quechua, Guaraní, Náhuatl, Aymara, Maya Yucateco, Mapudungun). It ensures that every interactive lab generated for these tracks strictly respects the native linguistic structure without breaking the target compiler.
+A Language Seed Context is a compact contextual payload containing selected linguistic constraints and guidance for a target human language.
+
+It may include information about:
+
+```text
+Orthography
+Grammar
+Morphology
+Word Order Tendencies
+Terminology
+Technical Expression
+Language Variation
+Borrowing Preferences
+Communication Conventions
+````
+
+The context is supplied alongside the technical-learning prompt so the LLM has additional linguistic guidance while producing explanations, exercises, comments, and other learner-facing material.
+
+Conceptually:
+
+```text
+Authoritative Linguistic Information
+              +
+Target Human Language
+              +
+Technical Domain / Stack
+              +
+Output Requirements
+              ↓
+     Language Seed Context
+              ↓
+   Technical Learning Prompt
+              ↓
+        LLM Generation
+              ↓
+      Human Validation
+```
+
+A Language Seed Context is **not** a language model, translator, grammar engine, or guarantee of linguistic correctness.
 
 ---
 
-## ⚙️ How to Use the Meta-Prompt
+## 🎯 Why It Exists
 
-To generate your own highly effective Language Seed Context for any minority language, follow these steps:
-1. **Gather Data:** Find linguistic documentation, phonology rules, or Wikipedia extracts about your target language.
-2. **Fill the Variables:** Replace `[INSERT LANGUAGE]`, `[INSERT ISO]`, `[INSERT TARGET TECH STACK]`, and `[INSERT URL OR TEXT HERE]` at the top of the Meta-Prompt below.
-3. **Generate:** Feed the completed prompt to an advanced LLM.
-4. **Inject:** Take the resulting output paragraph and inject it into your automated pipeline (or base system prompt) before generating your technical curriculum.
+Technical education creates an unusual language problem.
 
-### 🛠️ The Meta-Prompt (The Factory Generator)
+Some elements should normally remain unchanged:
+
+```text
+Programming Keywords
+API Names
+Library Names
+Function Names
+CLI Commands
+Protocol Names
+Technical Identifiers
+```
+
+Other elements should be communicated naturally in the learner's human language:
+
+```text
+Explanations
+Instructions
+Analogies
+Comments
+Concept Descriptions
+Exercise Objectives
+Feedback
+```
+
+A Language Seed Context helps define that boundary explicitly.
+
+This is especially useful when direct translation produces technically understandable but linguistically unnatural material.
+
+---
+
+## 🧩 Core Design Principles
+
+### 1. Linguistic Grounding
+
+Rules should come from reliable linguistic information rather than assumptions generated by the LLM.
+
+Useful sources may include:
+
+* grammars,
+* dictionaries,
+* orthographic standards,
+* academic linguistic descriptions,
+* educational resources,
+* terminology references,
+* and material produced or reviewed by fluent speakers.
+
+The Seed Context should preserve uncertainty when the available evidence is incomplete.
+
+---
+
+### 2. Dominant-Language Interference Awareness
+
+When relevant, the context may warn the model about structural interference from a dominant regional language such as Spanish or English.
+
+The goal is not to mechanically reject every structure shared with another language.
+
+It is to reduce unnatural output caused by blindly reproducing dominant-language grammar, terminology, or expression patterns.
+
+---
+
+### 3. Orthographic Fidelity
+
+Use the established or selected orthographic convention of the target language.
+
+Do not automatically replace valid Unicode characters with ASCII merely for token convenience.
+
+Normalization should only be introduced when:
+
+* required by the target technical environment,
+* explicitly requested by the project,
+* or supported by the selected orthographic convention.
+
+Human-language orthography and programming-language syntax should be treated as separate concerns.
+
+---
+
+### 4. Terminology Discipline
+
+Do not invent technical vocabulary merely to avoid using an established loanword or international technical term.
+
+When an established native-language term exists, use it.
+
+When terminology is uncertain, a descriptive explanation may be safer than fabricating a new word.
+
+A useful pattern may be:
+
+```text
+Technical Term
++
+Target-Language Explanation
+```
+
+The exact format should depend on the language, audience, and available terminology.
+
+---
+
+### 5. Code & Prose Separation
+
+Programming syntax must remain valid for the target technology.
+
+Human-language adaptation should not modify:
+
+* programming keywords,
+* required identifiers,
+* API names,
+* commands,
+* expected literal values,
+* or syntax required for execution.
+
+Comments and educational prose may use the target human language when appropriate.
+
+String literals may be translated only when doing so does not change the intended program behavior, expected output, test result, protocol value, or exercise requirement.
+
+---
+
+### 6. Variation Awareness
+
+A language may contain:
+
+* regional varieties,
+* dialects,
+* competing orthographies,
+* different terminology conventions,
+* or context-dependent grammatical patterns.
+
+The Seed Context should identify the intended variety when necessary instead of presenting one variety as universally representative of the language.
+
+---
+
+## ⚠️ What the Pattern Does Not Establish
+
+A Language Seed Context does not prove that:
+
+* the generated language is native-quality,
+* dominant-language interference has been eliminated,
+* technical terminology is universally accepted,
+* a particular word order applies to every sentence,
+* the model has acquired the target language,
+* linguistic hallucinations cannot occur,
+* or the same Seed Context will behave identically across models.
+
+The payload influences model behavior through instructions and contextual information.
+
+It does not literally rewrite the model's latent space or permanently modify the model.
+
+---
+
+## 🛠️ Creating a Language Seed Context
+
+A practical workflow is:
+
+```text
+1. Collect Linguistic Sources
+           ↓
+2. Define Language / Variety
+           ↓
+3. Extract Relevant Constraints
+           ↓
+4. Generate Seed Context
+           ↓
+5. Review Linguistically
+           ↓
+6. Test With Technical Material
+           ↓
+7. Revise
+```
+
+For low-resource or indigenous languages, review by fluent speakers, native speakers, educators, or qualified linguistic specialists is particularly valuable.
+
+The LLM should assist with synthesis—not become the sole source of linguistic truth.
+
+---
+
+## ⚙️ Language Seed Context Generator Meta-Prompt
+
+The following Meta-Prompt can be used to produce a compact candidate Language Seed Context from supplied linguistic material.
 
 ```text
 # 🔍 TARGET LANGUAGE DATA
-Language Name: [INSERT LANGUAGE]
-ISO Code: [INSERT ISO]
-Target Tech Stack: [INSERT PROGRAMMING LANGUAGE, e.g., Python, Java, Elixir]
-Reference Data (URL or Text): [INSERT URL OR TEXT HERE]
+
+Language Name: [INSERT LANGUAGE]  
+ISO Code: [INSERT ISO]  
+Language Variety / Region: [OPTIONAL]  
+Orthographic Standard: [OPTIONAL]  
+Target Tech Stack: [INSERT PROGRAMMING LANGUAGE, e.g., Python, Java, Elixir]  
+Reference Data: [PASTE AUTHORITATIVE OR VERIFIED LINGUISTIC TEXT HERE]
 
 # 🎯 ROLE
-You are an elite Computational Linguist and LLM Prompt Engineer specializing in low-resource and native languages.
+
+You are an expert Computational Linguist and LLM Prompt Engineer specializing in low-resource and underrepresented languages.
 
 # 🎯 OBJECTIVE
-Your task is to analyze the provided Target Language Data (phonology, grammar, and syntax properties) to generate a highly condensed, actionable "Language Seed Context". This Language Seed Context will be injected into a larger system prompt to force another LLM to generate high-quality programming tutorials (Coding5s methodology) in the specified Target Language and Tech Stack.
 
-# 🏗️ OUTPUT ARCHITECTURE (The Gold Standard)
-You must generate a dense, cohesive paragraph (150-250 words) structured EXACTLY like the following Quechua example. DO NOT use bullet points. Keep it as a continuous block of text.
+Analyze the provided Target Language Data (grammar, morphology, orthography, syntax, terminology, and relevant linguistic properties) to generate a highly condensed, actionable "Language Seed Context". This Seed Context will be injected into a larger system prompt to guide another LLM toward generating technically accurate Coding5s programming material in the specified Target Language and Tech Stack while reducing dominant-language interference and preserving valid programming syntax.
+
+# 🏗️ OUTPUT ARCHITECTURE
+
+Generate ONE dense, cohesive paragraph of approximately 150-250 words. DO NOT use bullet points. Follow the structural pattern of the example below.
+
+IMPORTANT: The example is a STRUCTURAL EXAMPLE ONLY. Never transfer Quechua grammar, terminology, orthography, word order, or other linguistic facts to the target language unless independently supported by the supplied Reference Data.
 
 <gold_standard_example>
-You are an expert Quechua linguist. Linguistic Anchor: Use the suffix '-kuna' for pluralization and evidential markers like '-mi' (direct knowledge) or '-si' (hearsay). Use 'Añay' (thanks). Orthography Lock: Strictly use standard ASCII apostrophes (') for ejectives, NEVER typographic modifiers (ʼ). Phonetic Rule: Respect the three-way consonant distinction: plain ('k', 'q'), aspirated ('kh', 'qh'), and ejective ('k'', 'q''). Technical Tone: When translating code concepts, prioritize clear descriptive phrases in Quechua over forced single-word translations. Keep core programming keywords in English. Anti-Hallucination: Strictly separate from Aymara grammar. If unsure about a technical term, NEVER borrow from Spanish. Syntax Rule: Do not think in Spanish SVO structure. Quechua is strictly an SOV (Subject-Object-Verb) language. Force verbs to the end. Glossary Rule: Keep core [TARGET TECH STACK] keywords and specific parameters in English inside the code. When referencing ANY English tech term or parameter in prose, always use this pattern: '[English Term] (explained as [Descriptive Quechua Phrase])'. STRING & COMMENT ENFORCEMENT: EVERY line starting with # (or equivalent comment syntax) MUST be natively in Quechua. Zero English comments allowed. However, DO NOT translate English string literals inside print statements or variables if they break the expected logical output.
+You are an expert Quechua linguist. Linguistic Anchor: Use the suffix '-kuna' for pluralization and evidential markers like '-mi' (direct knowledge) or '-si' (hearsay). Use 'Añay' (thanks). Orthography: Follow the documented orthographic conventions of the selected Quechua variety. Technical Tone: When explaining programming concepts, prioritize clear descriptive phrases in Quechua over invented terminology. Keep required programming keywords, API names, parameters, and identifiers unchanged. Language Interference: Avoid mechanically transferring Spanish grammar or terminology where it conflicts with documented Quechua usage. Syntax Guidance: Respect documented Quechua word-order tendencies without treating them as universal rules for every sentence. Glossary Rule: Keep core [TARGET TECH STACK] keywords and specific parameters unchanged inside code. When an English technical term requires explanation in prose, use the pattern '[English Term] (explained as [Descriptive Quechua Phrase])' when linguistically appropriate. STRING & COMMENT ENFORCEMENT: EVERY learner-facing comment line using the native comment syntax of [TARGET TECH STACK] MUST be written in Quechua, while official technical identifiers may remain unchanged. DO NOT translate string literals, identifiers, commands, parameters, API values, or expected outputs when doing so would change program behavior or break the exercise.
 </gold_standard_example>
 
 # 🛠️ EXTRACTION & GENERATION RULES
-1. SYNTAX OVERRIDE: Identify the exact word order (SOV, VOS, VSO, etc.) from the reference data. Instruct the target LLM to aggressively reject the dominant colonial structure (e.g., Spanish/French/English SVO) if applicable.
-2. LINGUISTIC ANCHOR & ORTHOGRAPHY: Isolate 2-3 essential structural elements. Add a strict "Orthography Lock" enforcing standard ASCII apostrophes or specific characters over special Unicode characters to ensure token consistency.
-3. TECHNICAL DERIVATION: Devise 2 highly accurate descriptive technical translations for programming terms based on the morphological rules found in the text. Instruct the LLM to prioritize circumlocution (descriptive phrases) over inventing non-existent words.
-4. ANTI-HALLUCINATION: Identify the closest linguistic neighbors or dominant colonial language. Strictly forbid borrowing vocabulary or grammar from them.
-5. CODING5S COMPLIANCE: Include the exact "Glossary Rule" and "STRING & COMMENT ENFORCEMENT" constraints from the example, custom-tailored to the target language and the defined [TARGET TECH STACK].
+
+1. SOURCE GROUNDING: Use ONLY linguistic properties supported by the supplied Reference Data. If the reference material is missing, inaccessible, ambiguous, or does not establish a required property, do not invent it. Omit unsupported claims rather than guessing.
+
+2. SYNTAX GUIDANCE: Identify documented word-order tendencies or syntactic constraints (SOV, VOS, VSO, flexible order, discourse-conditioned order, etc.) only when clearly supported by the Reference Data. Do NOT convert a tendency into a universal sentence rule. Instruct the target LLM to avoid unsupported transfer from dominant regional languages when such interference is relevant.
+
+3. LINGUISTIC ANCHOR & ORTHOGRAPHY: Isolate 2-3 high-value grammatical, morphological, or structural features that materially affect natural technical prose. Follow the documented or selected orthographic standard. Do NOT replace legitimate Unicode characters with ASCII merely for token convenience unless explicitly required by the target orthography or technical environment.
+
+4. TECHNICAL TERMINOLOGY: Use established target-language technical terminology only when supported by the Reference Data or explicitly provided terminology. If no established term is known, prefer a clear descriptive phrase over inventing a new word. Never present an LLM-generated descriptive phrase as an established native technical term without evidence.
+
+5. LANGUAGE INTERFERENCE: Identify relevant neighboring or dominant languages only when useful. Instruct the target LLM to avoid unsupported grammatical, lexical, or stylistic transfer from them. Do NOT automatically reject legitimate loanwords, shared structures, or established terminology.
+
+6. VARIETY CONSISTENCY: If a Language Variety / Region or Orthographic Standard is specified, keep the generated Seed Context aligned with it. Do not silently mix dialects, regional forms, or competing orthographies.
+
+7. CODE SAFETY: Preserve valid [TARGET TECH STACK] syntax, programming keywords, API names, library names, parameters, identifiers, commands, and other required technical elements. Human-language adaptation must never alter executable behavior or required outputs.
+
+8. CODING5S COMPLIANCE: Include a compact Glossary Rule and STRING & COMMENT ENFORCEMENT rule adapted to the target language and actual [TARGET TECH STACK] comment syntax. Replace every [TARGET TECH STACK] placeholder in the generated payload with the programming language supplied in the input.
+
+9. UNCERTAINTY BOUNDARY: Do not claim that the resulting Seed Context guarantees native-quality language, eliminates linguistic interference, or represents universal linguistic truth. Preserve uncertainty when the source material does not justify an absolute rule.
 
 # ✅ OUTPUT CONTRACT
-Return ONLY the final Language Seed Context text paragraph based on the language data. No conversational filler, no explanations. Just the prompt injection payload.
 
+Return ONLY the final Language Seed Context as one continuous paragraph.
+
+No headings.  
+No bullet points.  
+No analysis.  
+No citations.  
+No conversational filler.  
+No explanation of your reasoning.
+
+Return only the final prompt-injection payload.
 ```
 
-📊 Production-Ready Example: Kaqchiquel (ISO: cak)
+---
 
-This is a real payload generated by the updated Meta-Prompt for the Kaqchiquel language, demonstrating how structural linguistic markers and string execution constraints are compiled into an actionable injection block:
-Plaintext
+## 🧪 Illustrative Output Structure
 
-You are an expert Kaqchiquel linguist. Linguistic Anchor: Use 'Maltyox' for thanks. Employ relational nouns (such as 'chi' or 'ik'in') to express spatial and logical relationships rather than borrowing Spanish prepositions. Orthography Lock: Strictly use standard ASCII apostrophes (') for glottalized and ejective consonants (b', ch', k', q', t'), NEVER typographic modifiers (ʼ). Morphological Rule: Maintain strict adherence to ergative-absolutive alignment markers for cross-referencing arguments on verbs. Technical Tone: Prioritize descriptive circumlocution in Kaqchiquel for abstract programming concepts rather than inventing arbitrary words. Keep core programming keywords in English. Anti-Hallucination: Strictly separate from K'iche' and Tz'utujil grammar. If unsure about a technical term, NEVER borrow vocabulary or structural syntax from Spanish. Syntax Rule: Do not think in Spanish or English SVO structure. Kaqchiquel is naturally a VOS (Verb-Object-Subject) or VSO language; aggressively push verbs to the beginning of sentences in your explanatory prose. Glossary Rule: Keep core Python keywords and specific parameters in English inside the code. When referencing ANY English tech term or parameter in prose, always use this pattern: '[English Term] (explained as [Descriptive Kaqchiquel Phrase])'. STRING & COMMENT ENFORCEMENT: EVERY line starting with # MUST be natively in Kaqchiquel. Zero English comments allowed. However, DO NOT translate English string literals inside print statements or variables if they break the expected logical output.
+A generated Language Seed Context may conceptually resemble:
 
-📈 Impact on Model Output: The Behavior Shift
+```text
+You are communicating technical material in [TARGET LANGUAGE], using the [SELECTED VARIETY / ORTHOGRAPHY] described by the supplied linguistic reference. Linguistic Anchor: [SUPPORTED HIGH-VALUE GRAMMATICAL OR MORPHOLOGICAL GUIDANCE]. Orthography: [SUPPORTED ORTHOGRAPHIC CONSTRAINTS]. Language Interference: Avoid mechanically reproducing [DOMINANT LANGUAGE] structures where they conflict with the documented patterns of [TARGET LANGUAGE]. Technical Terminology: Preserve required [TARGET TECHNOLOGY] keywords, APIs, commands, identifiers, and parameters. Use established target-language terminology when documented; otherwise prefer clear descriptive explanations rather than invented technical vocabulary. Code Safety: Do not modify executable syntax or required literal values for linguistic purposes. Use [TARGET LANGUAGE] for learner-facing explanations and comments when technically safe. Variation Boundary: Follow [SELECTED VARIETY] and do not silently mix forms from other varieties. Uncertainty Rule: When linguistic usage is not established by the supplied context, prefer neutral wording and do not invent grammatical or lexical rules.
+```
 
-When an LLM evaluates a standard coding prompt without this payload, it operates on a generic baseline, resulting in "syntactic bleeding" (forcing English/Spanish word order) and mechanical translations. Inserting the Language Seed Context shifts the model's latent space dramatically:
+This is a **structural example**, not a finished Seed Context for any specific language.
 
-    Before Language Seed Context: The model outputs code explanations that read like literal Spanish translations, mixes incompatible regional dialects, completely ignores indigenous sentence structures (like VSO/SOV), and hallucinates ungrammatical technical loanwords.
+The actual linguistic content must come from the reference material supplied for that language.
 
-    After Language Seed Context: The LLM actively suppresses dominant grammatical structures, forces programming syntax to yield to native morphology (e.g., placing verbs correctly at the end or beginning of prose sentences), and structures every code comment and markdown breakdown using precise, descriptive native phrases without breaking the compiler runtime or modifying expected string values. It transforms a generic AI into a culturally anchored, highly specialized Socratic technical mentor.
+---
 
-⚖️ License & Open Collaboration
+## 🔬 Validation Workflow
 
-This architectural pattern is released under the MIT License. Feel free to use, fork, modify, and integrate it into your own low-resource technical education pipelines. If you develop optimizations for other indigenous or underrepresented languages, contributions and pull requests are highly encouraged.
+Generating the Seed Context is only the first step.
+
+A useful validation cycle is:
+
+### 1. Linguistic Review
+
+Check:
+
+* grammar,
+* orthography,
+* terminology,
+* naturalness,
+* variety consistency,
+* and dominant-language interference.
+
+### 2. Technical Review
+
+Verify that:
+
+* code still executes,
+* commands remain valid,
+* API terminology is preserved,
+* examples maintain their intended outputs,
+* and translated strings do not invalidate tests or exercises.
+
+### 3. Model Testing
+
+Run representative prompts through one or more capable LLMs and compare:
+
+```text
+Without Seed Context
+vs.
+With Seed Context
+```
+
+Observe changes in:
+
+* linguistic consistency,
+* terminology,
+* grammar,
+* instruction following,
+* code safety,
+* and unwanted language mixing.
+
+These comparisons are **behavioral observations**, not proof of linguistic correctness.
+
+### 4. Human Revision
+
+Correct the Seed Context when testing reveals:
+
+* awkward language,
+* invented terminology,
+* excessive rigidity,
+* dialect mixing,
+* incorrect technical translation,
+* or rules that cause the model to overcorrect.
+
+---
+
+## 🌎 Role Inside Coding5s
+
+Language Seed Contexts are optional contextual resources.
+
+They are especially relevant when a Coding5s course needs to generate learner-facing material in a language for which default LLM output is not sufficiently reliable.
+
+Conceptually:
+
+```text
+Pillar 1
+Technical Curriculum + Learning Architecture
+                +
+Language Seed Context
+                ↓
+Language-Grounded Learning Material
+```
+
+The Language Seed Context does not replace:
+
+* Pillar 1,
+* the Creator Kit,
+* Pillar 2 Mentors,
+* Stateful5s,
+* or human linguistic validation.
+
+It adds an additional linguistic grounding layer when needed.
+
+---
+
+## 🧭 Research Status
+
+The Language Seed Context Pattern should currently be treated as a **practical experimental technique**.
+
+Early testing can evaluate whether providing explicit linguistic context produces more useful output than relying on the model's default behavior alone.
+
+Questions worth testing include:
+
+```text
+Does grammatical consistency improve?
+
+Does dominant-language interference decrease?
+
+Are established technical terms preserved correctly?
+
+Does the Seed Context introduce new linguistic errors?
+
+How much context is actually useful?
+
+Do different LLMs respond differently?
+
+Does a native speaker judge the resulting material as more natural?
+
+Does stronger linguistic grounding affect technical accuracy?
+```
+
+The answers may differ substantially by language, model, technical domain, and quality of the source material.
+
+---
+
+## ⚖️ License & Open Collaboration
+
+The Language Seed Context Pattern is part of the open-source **Coding5s Framework** and is released under the **MIT License**.
+
+You are free to use, modify, test, adapt, and extend the pattern.
+
+Contributions for additional languages are welcome, particularly when they include:
+
+* authoritative linguistic sources,
+* clearly identified language varieties,
+* technical testing,
+* documented limitations,
+* and review from people who actually use or study the language.
+
+The objective is not to make an LLM pretend it knows a language perfectly.
+
+> **The objective is to give it better linguistic ground to stand on.**
+

@@ -1,45 +1,360 @@
-# 📘 METHODOLOGY.md: The Coding5s Ecosystem Architecture
+# 📘 METHODOLOGY.md: Coding5s Framework Architecture
 
-## 1. Core Philosophy: Controlled Cognitive Friction
-The Coding5s methodology is built on a singular thesis: **learning is a biological process of repairing cognitive load.** We do not optimize for speed; we optimize for **Epistemic Retention**. 
+Coding5s is an open-source technical-learning framework designed for an environment where generative AI can explain, generate, debug, and modify technical work on demand.
 
-Every interaction within the ecosystem is engineered to maximize "Controlled Cognitive Friction," forcing the brain to transition from passive AI-outsourcing to active architectural reasoning. By intentionally making the path to mastery non-trivial, we ensure that students do not just finish a course, but fundamentally reshape their mental models.
+Its central design principle is:
 
-## 2. Pillar I: The 5-Stage Learning Lifecycle
-Coding5s moves away from disconnected lessons and adopts a continuous lifecycle, mirroring the professional Software Development Lifecycle (SDLC):
+> **Learn With AI. Don’t Outsource Your Thinking.**
 
-* **Practice:** High-density micro-learning aimed at establishing baseline technical fluency.
-* **Debug:** Shifting from authoring to observing; analyzing logic through the lens of a compiler.
-* **Complete:** Bridging conceptual gaps via semantic scaffolding.
-* **Refactor:** Complexity reduction, audit of technical debt, and maintainability analysis.
-* **Extend:** Moving from functional replication to creative, scalable system authorship.
+The framework is organized around three complementary pillars:
 
+```text
+Pillar 1
+5-Stage Learning Architecture
+        ↓
+Pillar 2
+AI Mentor Behavioral Layer
+        ↓
+Pillar 3
+Persistent Cumulative Context
+````
 
+Each pillar addresses a different part of the learning problem.
 
-[Image of software development lifecycle infographic]
+---
 
+## 1. Core Principle: Controlled Cognitive Friction
 
-## 3. Pillar II: The AI Swarm (The Hive Mind Mentors)
-We utilize a modular swarm of specialized AI agents, each governed by high-density Seed Contexts. This is a living list, designed for constant expansion and optimization:
+AI can reduce the effort required to obtain a technically correct answer.
 
-* **Stage Mentors:** Friction-tuned to the specific requirements of the current lifecycle stage.
-* **Socratic Concept Guide:** Forbidden from "delivering" concepts; mandated to use analogies to trigger student-led deduction.
-* **Translator Mentors:** Specialized in mapping complex computational logic to native conceptual frameworks, enabling true linguistic localization.
-* **Legacy Code Archaeologist:** A specialist in *Brownfield Triage*; training students to thrive by auditing, understanding, and fixing existing messy codebases rather than building from scratch.
+That can be useful, but during learning the effort being removed may sometimes be the exact reasoning, diagnosis, retrieval, construction, or decision-making that the learner needs to practice.
 
-## 4. Pillar III: Stateful5s (The Cumulative State Engine)
-Stateful5s moves beyond the "stateless" chat model, treating the learning path as a **continuing architectural project**.
+Coding5s uses **Controlled Cognitive Friction** to manage that boundary.
 
-* **Architectural Ledger:** The system records critical student decisions, preferred syntax styles, and architectural patterns across stages.
-* **Cumulative Logic:** Decisions made in Stage 1 influence the complexity and requirements of Stage 4. If a student introduces a specific architectural pattern early on, the system remembers it and mandates a subsequent audit or refactor based on that specific history.
+The objective is not to make learning unnecessarily difficult.
 
-## 5. Ecosystem Characteristics: The Post-AI Standard
-Coding5s is built to thrive in the era where "writing code" is automated, focusing instead on "auditing logic" and "architecting systems."
+It is to introduce enough purposeful difficulty that the learner remains an active participant while still benefiting from AI assistance.
 
-* **Portability & Agnostic Design:** The methodology is model-agnostic, built on structural logic rather than specific LLM dependencies.
-* **Low-Resource Empowerment:** Through our *Seed Context* pipeline, we enable high-tier technical education in languages with minimal training data (e.g., Mayan languages), ensuring global accessibility.
-* **Zero-Developer Barrier:** Educators design curricula through a **solid Excel-based pipeline**. No hard-coding or complex environment setups are required to build a course.
-* **Architecture-as-Code:** Curricula are treated as data pipelines. A single logical change in the master source cascades automatically across all localized versions.
-* **Epistemic Sovereignty:** Students use AI as an audit tool for their own logic, reclaiming their authority over the code rather than delegating it to an oracle.
+Conceptually:
 
-Note: These are just a few examples.
+```text
+Too Little Friction
+→ AI performs the learning task
+
+Useful Friction
+→ AI supports the learner performing the task
+
+Too Much Friction
+→ difficulty stops being educational
+```
+
+Coding5s attempts to operate in the middle.
+
+A related design goal is **Epistemic Retention**: helping the learner retain enough understanding to inspect, explain, repair, modify, and extend technical work rather than only obtaining successful outputs.
+
+---
+
+## 2. Pillar 1: 5-Stage Learning Architecture
+
+Pillar 1 defines **what the learner practices and how that practice progresses**.
+
+The core lifecycle is:
+
+```text
+Practice
+   ↓
+Debug
+   ↓
+Complete
+   ↓
+Refactor
+   ↓
+Extend
+```
+
+### Practice
+
+Build initial familiarity through direct interaction with small, understandable examples or technical artifacts.
+
+### Debug
+
+Diagnose and correct intentionally flawed or problematic work.
+
+### Complete
+
+Reconstruct a meaningful missing component from the surrounding context and requirements.
+
+### Refactor
+
+Improve something that already works according to criteria appropriate to the target technology or domain.
+
+### Extend
+
+Adapt existing work to a new requirement, capability, constraint, or environment.
+
+The five stages are not intended as a literal copy of the Software Development Lifecycle.
+
+They represent a **learning progression from initial interaction toward increasingly independent modification and transfer**.
+
+Pillar 1 is implemented primarily through the spreadsheet-based **Creator Kit**, which combines curriculum information, technical rules, stage rules, configuration variables, and prompt components.
+
+---
+
+## 3. Pillar 2: AI Mentor Swarm & Behavioral Layer
+
+Pillar 2 defines **how AI should behave while supporting the learner**.
+
+General-purpose AI assistants may provide complete answers even when doing so removes the cognitive work an exercise was designed to develop.
+
+Coding5s Mentors introduce task-specific behavioral boundaries.
+
+Depending on the activity, a mentor may:
+
+* request the learner's reasoning,
+* provide progressive hints,
+* ask diagnostic questions,
+* critique an attempted solution,
+* explain relevant concepts,
+* challenge assumptions,
+* provide examples or scaffolding,
+* or require the learner to defend a technical decision.
+
+Coding5s does **not** impose a universal rule that AI may never generate code.
+
+The relevant boundary is:
+
+> **Do not perform the cognitive task that the learner is currently expected to practice.**
+
+The term **Mentor Swarm** refers primarily to a collection of specialized mentor behaviors.
+
+Multiple agents do not need to operate simultaneously for Pillar 2 to be useful.
+
+Future implementations may orchestrate several mentors together.
+
+---
+
+## 4. Pillar 3: Stateful5s
+
+Pillar 3 addresses **what useful context should survive as the learner progresses**.
+
+Some technical learning environments are cumulative.
+
+A decision made in an early lesson may still matter many lessons later.
+
+Stateful5s therefore separates:
+
+```text
+Conversation History
+=
+Everything that was said
+
+Persistent State
+=
+What future work still depends on
+```
+
+The relevant state is preserved outside the LLM and supplied again when later work requires it.
+
+This selected persistent information is called **Accumulated Context**.
+
+A networking implementation might preserve:
+
+```text
+Topology
+Device Roles
+Interfaces
+VLANs
+IP Addressing
+Routing
+Security Decisions
+Current Constraints
+```
+
+A programming project might preserve an entirely different state.
+
+The current reference implementation uses a spreadsheet **Architectural Ledger**, but Stateful5s does not require:
+
+* spreadsheets,
+* a Finite State Machine,
+* a database,
+* RAG,
+* ECP,
+* or any specific persistence technology.
+
+The architectural principle is simply:
+
+> **Persist what future work depends on.**
+
+---
+
+## 5. How the Three Pillars Work Together
+
+The pillars answer three different questions:
+
+```text
+PILLAR 1
+What should the learner do?
+
+        ↓
+
+PILLAR 2
+How should the AI help?
+
+        ↓
+
+PILLAR 3
+What must remain known later?
+```
+
+For example:
+
+```text
+Curriculum Topic
+      ↓
+5-Stage Practice Structure
+      ↓
+Appropriate Mentor Behavior
+      ↓
+Learner Action
+      ↓
+Relevant State Preserved
+      ↓
+Next Dependent Lesson
+```
+
+The pillars can work together, but each can also be explored or implemented independently.
+
+---
+
+## 6. Framework Characteristics
+
+### Spreadsheet-Based Authoring
+
+The primary Creator Kit workflow uses spreadsheets so educators and technical authors can configure curricula and prompt-generation rules without first building a custom software platform.
+
+This lowers the entry barrier to authoring while still allowing technically advanced curricula.
+
+> **Low entry barrier does not mean low ceiling.**
+
+---
+
+### Technical Ecosystem Adaptation
+
+Coding5s is not tied to one programming language or stack.
+
+Technical rules allow the same learning architecture to behave differently for environments such as:
+
+```text
+Python
+Elixir
+Dart
+SQL
+Networking
+Data Analysis
+Cloud Infrastructure
+```
+
+The framework should adapt to the conventions of the target ecosystem rather than force every subject through identical rules.
+
+---
+
+### AI Provider Independence
+
+Coding5s is not architecturally dependent on one specific LLM provider.
+
+However, this does not mean every model will behave identically.
+
+Instruction-following, context limits, reasoning capability, formatting, and output quality may vary across models and model versions.
+
+---
+
+### Human-Language Adaptation
+
+Course-generation workflows can target different human output languages.
+
+For languages where ordinary model performance requires stronger grounding, **Language Seed Contexts** can provide additional linguistic information and constraints.
+
+These contexts may reduce linguistic drift or dominant-language interference, but they do not guarantee correctness.
+
+Authoritative linguistic resources and fluent or native-speaker review remain important for production-quality material.
+
+---
+
+### Architecture as Structured Data
+
+Coding5s represents substantial parts of curriculum generation through structured:
+
+* variables,
+* rules,
+* tables,
+* formulas,
+* prompts,
+* and reusable context.
+
+This allows changes to be propagated systematically instead of manually rewriting every lesson.
+
+The exact workflow depends on the Creator Kit implementation.
+
+---
+
+## 7. Framework vs. Research Lab
+
+The core Coding5s architecture should remain distinct from experimental ideas explored in the **Research Lab**.
+
+Examples include:
+
+* General Seed Context,
+* Knowledge Domain Protocol,
+* Reverse Pitch Marketing,
+* Ephemeral Context Protocol,
+* M2M Semantic Notation,
+* and other experimental architectures.
+
+Some Research Lab concepts may eventually become useful implementations.
+
+Others may remain experiments or be discarded.
+
+Their presence in the repository does not make them requirements of the three core pillars.
+
+---
+
+## 8. Methodology Boundary
+
+Coding5s is a developing open-source methodology and implementation framework.
+
+It should not currently be interpreted as proof that:
+
+* the five stages universally improve learning,
+* Controlled Cognitive Friction guarantees retention,
+* AI dependence is eliminated,
+* Seed Contexts guarantee linguistic accuracy,
+* Stateful5s guarantees correct model recall,
+* or the framework outperforms other educational approaches.
+
+Those are questions for testing and research.
+
+The architecture makes a more modest claim:
+
+> **When AI can provide answers almost instantly, learning activities should be deliberately structured so the learner still has meaningful work to understand, diagnose, build, improve, and extend.**
+
+Este archivo ahora ocupa un lugar bastante claro en la raíz:
+
+```text
+README.md
+→ What is Coding5s?
+
+METHODOLOGY.md
+→ How does the architecture work?
+
+GLOSSARY.md
+→ What do the terms mean?
+
+FAQ.md
+→ What does it mean for different users?
+
+CONTRIBUTING.md
+→ How can I participate?
+
+LICENSE
+→ What am I legally allowed to do?
+```

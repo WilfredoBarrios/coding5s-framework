@@ -1,50 +1,296 @@
-# ⚙️ Core Specifications: Stateful5s Data Ledger
+# ⚙️ Core Specifications: Stateful5s Spreadsheet Ledger
 
-> **Technical definition of the 13-column Architectural Ledger schema.**
+> **Technical reference for the 14-column ledger used by the current Stateful5s spreadsheet implementation.**
 
-This document provides the canonical definition for every column in the Stateful5s Creator Kit. It serves as the primary reference for the data contract required to maintain state persistence across curriculum transitions.
+This document defines the column structure and propagation workflow used by the current **Stateful5s Architectural Ledger**.
+
+It describes one practical spreadsheet-based implementation of Stateful5s—not the complete Stateful5s architecture.
+
+Stateful5s itself only requires that relevant cumulative state be preserved outside the LLM and made available to later dependent learning interactions.
+
+The ledger documented here implements that idea through a sequential spreadsheet workflow designed originally for cumulative network and infrastructure courses.
 
 ---
 
-## 1. Column Definitions
+## 1. Ledger Schema
 
 | Column Name | Source | Purpose |
 | :--- | :--- | :--- |
 | **#** | Manual / Auto | Unique lesson identifier and row index. |
-| **Level** | Manual | Defines instructional depth (Beginner, Intermediate, Advanced). |
-| **Type** | Manual | Classification of the transition (STEP, CHECKPOINT, etc.). |
-| **Lesson Name** | Manual | Formal title of the current technical module. |
-| **IA Name** | Manual | Friendly persona identifier for the AI instructor. |
-| **Objective** | LLM / Manual | Defines the pedagogical goal for the student. |
-| **New Concepts** | LLM / Manual | Lists specific technical concepts introduced in the lesson. |
-| **Steps to Perform** | LLM / Manual | Granular list of instructions for the student/Packet Tracer setup. |
-| **Topic Context** | LLM / Formula | Contains the context generated from the specific lesson steps. |
-| **Topology Expansion** | Manual | Records events adding hardware or network segments. |
-| **Prompt Topic Context** | Formula | Automates the creation of the current lesson's `Topic Context`. |
-| **Lesson Prompt** | Formula | Generates the prompt to trigger the FSM transition logic. |
-| **Accumulated Context** | Persistent | **The State Engine:** Serialized state of the entire network configuration. |
-| **Lesson Prompt Generator** | Formula | Final instruction payload to generate the student-facing lesson. |
+| **Level** | Manual | Defines the intended instructional depth, such as Beginner, Intermediate, or Advanced. |
+| **Type** | Manual | Identifies the lesson or transition type, such as STEP or CHECKPOINT. |
+| **Lesson Name** | Manual | Formal title of the current lesson. |
+| **IA Name** | Manual | Friendly identifier used for the AI instructor or lesson persona. |
+| **Objective** | LLM / Manual | Defines the pedagogical objective of the lesson. |
+| **New Concepts** | LLM / Manual | Records the technical concepts introduced or emphasized in the lesson. |
+| **Steps to Perform** | LLM / Manual | Contains the actions the learner is expected to perform in the target environment. |
+| **Topic Context** | LLM / Formula | Captures lesson-specific technical context derived from the current lesson. |
+| **Topology Expansion** | Manual | Records additions or significant changes to the persistent technical environment. |
+| **Prompt Topic Context** | Formula | Builds the instruction payload used to generate or update the current `Topic Context`. |
+| **Lesson Prompt** | Formula | Constructs the prompt used during the current state-aware lesson-generation step. |
+| **Accumulated Context** | Persistent | Stores the selected cumulative technical state required by later lessons. |
+| **Lesson Prompt Generator** | Formula | Builds the final instruction payload used to generate the learner-facing lesson. |
 
 ---
 
-## 2. Column Logic & Dependencies
+## 2. Column Roles & Dependencies
 
-* **Manual Columns:** `Level`, `Type`, `Lesson Name`, `IA Name`, `Topology Expansion`. These define the "initial state" for any given row.
-* **Formula-Driven Columns:** `Prompt Topic Context`, `Lesson Prompt`, `Lesson Prompt Generator`. These are the FSM engines that transform inputs into actionable instructions.
-* **Derived Columns:** `Objective`, `New Concepts`, `Steps to Perform`, `Topic Context`. These contain the generated content that flows through the generation loop.
-* **Persistent Column (`Accumulated Context`):** The most critical column. It concatenates the state of previous lessons to maintain topological determinism and prevent AI hallucinations.
+The ledger combines several kinds of fields.
+
+### Manual Inputs
+
+Typical manually maintained columns include:
+
+```text
+Level
+Type
+Lesson Name
+IA Name
+Topology Expansion
+````
+
+These define important lesson-level parameters and changes that should not be inferred silently by the generation workflow.
+
+### Formula-Driven Fields
+
+```text
+Prompt Topic Context
+Lesson Prompt
+Lesson Prompt Generator
+```
+
+These columns assemble structured prompt payloads from the available lesson and state information.
+
+They automate prompt construction; they are not themselves the Stateful5s persistence mechanism.
+
+### Generated / Derived Fields
+
+```text
+Objective
+New Concepts
+Steps to Perform
+Topic Context
+```
+
+These may be generated by an LLM, written manually, or reviewed and edited by the curriculum creator.
+
+Generated content should be inspected before it becomes part of the persistent state chain.
+
+### Persistent State
+
+```text
+Accumulated Context
+```
+
+This is the key persistence field in the current spreadsheet implementation.
+
+It contains the selected technical state that future lessons still need.
+
+The objective is not to preserve every previous conversation or every generated sentence.
+
+It is to preserve **what later work depends on**.
 
 ---
 
-## 3. Data Integrity & State Propagation
+## 3. State Propagation
 
-To ensure the state machine remains functional, the following rules apply:
+The current spreadsheet workflow follows a sequential pattern:
 
-1.  **Formulas vs. Values:** The formula-driven columns generate the structure, but the content must be committed as **Static Values** (Paste Special → Values) to ensure the historical state is frozen.
-2.  **State Chain:** The `Accumulated Context` acts as the primary feedback loop. Any row without a correctly populated `Accumulated Context` cell will break the continuity of the curriculum.
-3.  **Expansion Logic:** `Topology Expansion` must be manually updated by the architect whenever new infrastructure (routers, switches, links) is added, ensuring the LLM is aware of the expanded physical surface.
+```text
+Current Lesson Inputs
+        +
+Previous Accumulated Context
+        ↓
+Prompt Construction
+        ↓
+LLM-Assisted Generation
+        ↓
+Human Review
+        ↓
+Updated Relevant State
+        ↓
+Commit as Static Value
+        ↓
+Next Lesson
+```
+
+Each row therefore represents a new point in the evolution of the learning environment.
+
+The next row may depend on the state committed by the previous one.
 
 ---
 
-## 4. Operational Role of the Ledger
-The ledger serves as a persistent "Architectural Ledger." It is not merely a table, but a **state machine**. Each row is a transaction that updates the current configuration of the network. Because state is cumulative, the system cannot be calculated via a single global spreadsheet formula; each row must be validated and committed before the next state can be generated.
+## 4. Data Integrity Rules
+
+### 1. Review Before Persistence
+
+LLM-generated state should not automatically be treated as authoritative.
+
+Generated objectives, steps, context, topology changes, and other state-bearing information should be reviewed before being propagated forward.
+
+---
+
+### 2. Commit Historical State as Values
+
+Formula-driven generation can produce the candidate state, but historical state should be committed as a **static value** when the workflow requires that version to remain stable.
+
+In spreadsheet workflows this may use:
+
+```text
+Copy
+→ Paste Special
+→ Values
+```
+
+This prevents a historical state entry from changing unexpectedly because an upstream formula was modified later.
+
+---
+
+### 3. Preserve the State Chain
+
+When a lesson depends on previous technical work, its required prior state must be available before generating the next dependent lesson.
+
+A missing or incorrect `Accumulated Context` entry can create continuity errors in later lessons.
+
+This does not guarantee that an LLM will interpret the state perfectly, but it gives the model an explicit representation of the environment instead of relying only on conversation history.
+
+---
+
+### 4. Record Environmental Changes Explicitly
+
+For network-oriented implementations, `Topology Expansion` should be updated whenever the persistent environment changes materially.
+
+Examples include:
+
+```text
+New Router
+New Switch
+New Link
+New Network Segment
+New Endpoint
+Major Interface Change
+```
+
+Equivalent implementations in other domains may track different kinds of structural changes.
+
+---
+
+## 5. What Accumulated Context Should Contain
+
+`Accumulated Context` should contain information that future lessons actually require.
+
+For a networking course, this may include:
+
+```text
+Device Roles
+Hostnames
+Interfaces
+IP Addressing
+VLANs
+Trunks
+Routing
+Security Configuration
+Topology Changes
+Completed Requirements
+Current Constraints
+```
+
+It should avoid unnecessary conversational material such as:
+
+```text
+long explanations
+temporary reasoning
+repeated instructions
+irrelevant dialogue
+formatting artifacts
+```
+
+The goal is:
+
+> **Relevant state, not complete history.**
+
+---
+
+## 6. Operational Role of the Ledger
+
+The spreadsheet acts as a manually inspectable **persistent state ledger**.
+
+Conceptually:
+
+```text
+Lesson N State
+      ↓
+Review + Commit
+      ↓
+Persistent Ledger
+      ↓
+Lesson N+1 Context
+```
+
+The ledger can resemble a state-transition system because each lesson may modify the environment inherited by the next lesson.
+
+However, Stateful5s does not require the implementation to be a formal Finite State Machine.
+
+The spreadsheet is simply the current reference mechanism for:
+
+* recording cumulative technical state,
+* inspecting it,
+* correcting it,
+* freezing historical values,
+* and reinjecting relevant context into later prompts.
+
+---
+
+## 7. Scope of This Specification
+
+This schema was developed around cumulative technical environments such as **CCNA / Packet Tracer**, where changes made in one lesson can affect many later lessons.
+
+It should therefore be treated as:
+
+```text
+Stateful5s Architecture
+        ↓
+Spreadsheet Ledger Implementation
+        ↓
+14-Column Reference Schema
+        ↓
+CCNA / Infrastructure Reference Use Case
+```
+
+Other Stateful5s implementations may use:
+
+* fewer columns,
+* additional fields,
+* JSON schemas,
+* structured text,
+* databases,
+* application state,
+* or domain-specific ledgers.
+
+They do not need to reproduce this schema exactly to qualify as Stateful5s.
+
+---
+
+## 8. Core Design Principle
+
+The ledger exists to answer a practical question:
+
+> **What does the next lesson need to know about everything that has already changed?**
+
+If a piece of information affects future work, preserve it.
+
+If it does not, it probably does not belong in the persistent state.
+
+````
+
+Este cambio deja una separación mucho más limpia:
+
+```text
+pillar_3/README.md
+→ What is Stateful5s?
+
+core-specifications.md
+→ How does the current spreadsheet ledger implement it?
+
+CCNA / Packet Tracer example
+→ What does that implementation look like in a real cumulative course?

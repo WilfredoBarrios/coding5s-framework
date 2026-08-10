@@ -107,6 +107,22 @@ For guidelines on how to pull requests, structure issues, or format architectura
 
 ---
 
-## 📄 License
+## 📜 License
 
-This project is licensed under the terms of the **MIT License**. You are free to modify, distribute, and implement this framework in commercial and private environments under the condition that the original copyright notice and permission notice are preserved. See the `LICENSE` file for full details.
+Coding5s is fully open source and released under the **MIT License**.
+
+The license applies to the original project materials contained in this repository, including:
+
+- framework source files,
+- prompts and prompt architectures,
+- documentation,
+- Creator Kits and Student Kits,
+- spreadsheet-based tools and templates,
+- Research Lab documents and experimental specifications,
+- diagrams, branding, and project-owned visual assets.
+
+You are free to use, copy, modify, distribute, sublicense, and build upon Coding5s, including for commercial purposes, subject to the terms of the MIT License.
+
+See the full [LICENSE](LICENSE) file for details.
+
+> **Open source means the framework can evolve beyond its original creator. Build with it, adapt it, test it, improve it, or take it somewhere I never imagined.**

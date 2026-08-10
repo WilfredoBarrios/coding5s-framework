@@ -1,177 +1,385 @@
 # 🤝 Coding5s Contributions Hub
 
-Welcome to the Coding5s Contributions Hub. This directory is being built as a collaborative space for community-contributed educational assets, custom technology stacks, and framework expansions.
+Welcome to the **Coding5s Contributions Hub**.
 
-If you have built a **Creator Kit** and a specialized **Student Kit**, adapted the methodology to a new domain, or created new Seed Contexts, this is where it will live.
+This directory contains community-built implementations, adaptations, extensions, learning assets, and experiments related to the Coding5s Framework.
 
-**Note:** Coding5s is in its early stages and we are actively looking for the first contributors to help shape this ecosystem. Your contribution will be foundational.
+Contributions can range from a documentation improvement or a new Seed Context to a complete Creator Kit, domain adaptation, methodology variant, dataset tool, mentor behavior, or Stateful5s experiment.
+
+> **Contribution Principle:** Extend what exists, test a new direction, or solve a practical problem—but clearly document what your contribution does, how it was tested, and where its limitations are.
 
 ---
 
-## 📂 Directory Structure
+## 📦 What Belongs Here
 
-All contributions must follow this specific hierarchy inside the `/contributions` folder to maintain parity with the core ecosystem:
+Examples of suitable contributions include:
 
-### For Pillar 1 Coding5s Contributions (5-Stage Methodology)
+- **Creator Kits** — modified or specialized authoring environments
+- **Student Kits** — learner-facing artifacts generated from Creator Kits
+- **Seed Contexts** — Language Seed Contexts or General Seed Context experiments
+- **Mentor Behaviors** — specialized AI mentor prompts, constraints, or behavioral specifications
+- **Stateful5s Implementations** — experiments for preserving useful cumulative context
+- **Synthetic Practice Data** — dataset generators, practice files, or related learning resources
+- **Domain Adaptations** — Coding5s applied to a new programming language, stack, tool, or technical field
+- **Methodology Variants** — alternative implementations such as Debug5s, Reverse5s, Blind5s, or other pedagogical forks
+- **Assessment Tools** — rubrics, checkpoints, review systems, or progress-tracking experiments
+- **Supporting Tools** — utilities that improve Creator Kit or Student Kit workflows
+- **Experimental Implementations** — prototypes based on Research Lab or Ideas to Innovate concepts
+
+Contributions do not need to fit a permanently fixed taxonomy.
+
+If your work does not match an existing category, create a clearly named folder and explain the structure in its `README.md`.
+
+---
+
+## 🧭 Contribution Types
+
+Coding5s accepts two broad types of contributions.
+
+### 1. Core-Compatible Contributions
+
+These extend Coding5s while preserving the relevant architecture of the framework.
+
+Examples:
+
+- a new programming-language Creator Kit,
+- a Language Seed Context,
+- a specialized mentor,
+- a practice dataset generator,
+- a Stateful5s implementation,
+- or a domain-specific Student Kit.
+
+Core-compatible contributions should preserve the Coding5s principles they claim to implement.
+
+---
+
+### 2. Experimental Contributions
+
+These intentionally modify, challenge, or test part of the existing framework.
+
+Examples:
+
+- alternative stage behaviors,
+- methodology forks,
+- new context architectures,
+- unusual mentor models,
+- experimental state systems,
+- or implementations derived from `/ideas_to_innovate` or `/research_lab`.
+
+Experimental work is welcome.
+
+It must simply be labeled clearly so users can distinguish:
+
+```text
+Framework-Compatible Implementation
+vs.
+Experimental Variant
+````
+
+An experimental contribution does not need to prove that its idea works universally before it can be discussed or tested.
+
+---
+
+## 📂 Recommended Structure
+
+Use a structure appropriate to the contribution instead of forcing every project into the same hierarchy.
+
+Example:
 
 ```text
 contributions/
-├── coding5s-[technology]/           # e.g., coding5s-react-js, coding5s-docker-fundamentals
-│   ├── README.md                    # Overview, target audience, and setup instructions
-│   ├── creator_kit/                 # The authoring files (Excel templates, source data)
-│   │   └── [Tech]_Creator_Kit.xlsx
-│   └── student_kit/                 # The runtime files (Clean prompts, student grids)
-│       ├── [Tech]_Student_Kit.xlsx
-│       └── localized/               # Optional: Regional or low-resource language variants
-```
-
-### For Pillar 2 Mentor Contributions (AI Swarm Mentors)
-
-```text
-contributions/
-├── mentors/
-│   ├── [mentor-archetype]/          # e.g., security-auditor, performance-optimizer, ux-specialist
-│   │   ├── README.md                # Mentor profile, use cases, and activation scenarios
-│   │   ├── mentor_prompt.md         # The Level 1 Meta-Prompt that generates this mentor's Seed
-│   │   ├── examples/                # Sample interactions and prompt outputs
-│   │   │   ├── stage_1_example.md
-│   │   │   ├── stage_3_example.md
-│   │   └── test_results.md          # Validation across different LLMs
-│   └── README.md                    # How to create and test new mentor archetypes
-```
-
-### For Pillar 3 Stateful5s Contributions (Cumulative State Methodology)
-
-```text
-contributions/
-├── stateful5s-[technology]/         # e.g., stateful5s-django, stateful5s-aws-arch
-│   ├── README.md                    # Overview, state architecture, and prerequisites
-│   ├── creator_kit/                 # The authoring files with state management
-│   │   └── [Domain]_Stateful5s_Creator_Kit.xlsx
-│   ├── student_kit/                 # The runtime files with cumulative prompts
-│   │   └── [Domain]_Stateful5s_Student_Kit.xlsx
-│   └── topology/                    # Optional: State diagrams, architecture maps
-│       └── state_diagram.md
-```
-
-### For Seed Context Contributions
-
-```text
-contributions/
+├── creator-kits/
+├── student-kits/
 ├── seed-contexts/
-│   ├── language/                    # New language Seed Contexts
-│   │   └── [language-name].md
-│   ├── pedagogy/                    # New pedagogical approaches
-│   │   └── [approach-name].md
-│   ├── role/                        # New mentor archetypes
-│   │   └── [archetype-name].md
-│   └── README.md                    # How to create and test Seed Contexts
+│   ├── language/
+│   └── general/
+├── mentors/
+├── stateful5s/
+├── datasets/
+├── methodology-variants/
+├── tools/
+└── experiments/
 ```
 
----
+A larger contribution may use its own directory:
 
-## 🛠️ Contribution Guidelines
+```text
+contributions/
+└── my-contribution/
+    ├── README.md
+    ├── creator_kit/
+    ├── student_kit/
+    ├── examples/
+    └── tests/
+```
 
-To ensure that community kits maintain the same pedagogical rigor as the core repository, all pull requests (PRs) must meet the following Quality Gates:
-
-### 1. The Pedagogy Checklist
-
-- **The 5-Stage Alignment**: Your curriculum must strictly adhere to the 5 stages (Practice, Debug, Complete, Refactor, Extend). Skipping stages breaks the learning continuity.
-- **The "No Keyboard" Rule**: The generated prompts for your AI Mentors must explicitly forbid the LLM from writing direct code for the student.
-- **Controlled Friction**: The Socratic prompts must be validated to ensure they provide guidance through analogies and diagnostic questions, not shortcut solutions.
-- **Stage 1 Priority**: The Practice stage must emphasize manual copying of code to build muscle memory before any AI interaction.
-
-### 2. Technical Requirements
-
-- **Formula-Free Student Kits**: The files inside the `student_kit/` folder must be completely stripped of the original Excel generation formulas. They should only contain the clean, final prompt text payloads ready for copy-pasting.
-- **Model Agnosticism**: Your prompts must be tested across at least two different LLM families (e.g., GPT-4o and Claude 3.5 Sonnet) to ensure they do not suffer from severe Latent Drift.
-- **Data Validation**: Ensure all strings inside your Creator Kit sheets are sanitized and do not contain unescaped characters that could break string interpolation when loaded into an LLM payload.
-- **Stateful5s Specific**: If contributing to Stateful5s, ensure your state management logic is clearly documented and that each lesson builds on the previous state.
-
-### 3. Licensing
-
-- All contributions must be released under the **MIT License**, consistent with the main repository.
-- You retain copyright of your original work, but grant the community the right to use, modify, and distribute it.
+Only include folders that are actually required.
 
 ---
 
-## 🚀 How to Submit Your Kit
+## ✅ Quality Guidelines
 
-1. **Fork the Repository**: Create a personal fork of the `coding5s-framework` repository.
-2. **Create your Branch**: Use a descriptive naming convention: `feature/contrib-[tech-name]`.
-3. **Build and Test**: Place your files in the structured folder layout. Run a "Dry Run" test interaction with an AI to confirm the constraints hold under pressure.
-4. **Document**: Include a comprehensive `README.md` explaining:
-   - Target technology and student profile
-   - Prerequisites (if any)
-   - How to use the Creator Kit and Student Kit
-   - Any linguistic localizations included
-   - Testing results across different LLMs
-5. **Submit a PR**: Open a Pull Request against our main branch. Be prepared to iterate based on feedback.
+Every contribution should make its purpose and behavior inspectable.
 
----
+### 1. Document the Problem
 
-## 💡 Ideas to Innovate (Open Challenges)
+Explain:
 
-Looking to contribute but don't know where to start? Here are priority areas where the framework needs expansion:
-
-### Technology Stacks
-- **Frontend Frameworks**: React, Vue, Svelte, Angular
-- **Cloud & DevOps**: Docker, Kubernetes, AWS/GCP/Azure Architectures
-- **Data Science & ML**: Pandas, Scikit-Learn, PyTorch foundations
-- **Advanced Systems**: Rust (memory management), Go (concurrency patterns), Elixir (distributed systems)
-- **Mobile Development**: React Native, Flutter, Swift/Kotlin
-
-### Non-Programming Domains
-- **Medical Triage**: Diagnostic protocols, patient care workflows
-- **Aviation Procedures**: ICAO standards, emergency protocols (see HRPML demo)
-- **Legal Analysis**: Case research, contract drafting, precedent integration
-- **Corporate Networking**: Beyond CCNA (enterprise architectures, security)
-
-### Seed Contexts
-- **New Languages**: French, German, Mandarin, Arabic, Portuguese (and more indigenous languages)
-- **New Pedagogies**: Problem-Based Learning, Flipped Classroom adaptations
-- **New Mentor Archetypes**: Security Auditor, Performance Optimizer, UX Specialist
-- **Domain-Specific Contexts**: Fintech, Healthcare, Gaming, Education
-
-### Framework Extensions
-- **ECP Optimizations**: Improvements to the Ephemeral Context Protocol
-- **Context Composition**: New ways to combine multiple Seed Contexts
-- **Tool Integrations**: VS Code extensions, Jupyter notebooks, IDE plugins
-- **Assessment Tools**: Automated evaluation systems for Explanation Gates
+* what problem the contribution addresses,
+* who it is intended for,
+* what part of Coding5s it extends,
+* and whether it is core-compatible or experimental.
 
 ---
 
-## 🚫 What NOT to Contribute
+### 2. Preserve Meaningful Learner Participation
 
-To maintain quality and focus, please do **not** submit:
+Coding5s is designed around **Controlled Cognitive Friction**.
 
-- ❌ Kits that skip any of the 5 stages
-- ❌ Prompts that allow the AI to write complete code for the student
-- ❌ Untested prompts that haven't been validated across multiple LLMs
-- ❌ Student Kits that still contain Excel formulas
-- ❌ Content that violates the Code of Conduct or promotes harmful practices
-- ❌ Duplicate contributions (check existing PRs first)
+AI assistance should support learning without replacing the reasoning, decisions, debugging, or execution that the learner is expected to perform.
+
+This does **not** mean that AI is forbidden from generating code.
+
+Depending on the stage and exercise, AI may provide:
+
+* examples,
+* scaffolding,
+* incomplete code,
+* broken code,
+* explanations,
+* diagnostic questions,
+* or other learning material.
+
+The important requirement is that the AI does not perform the learner's required cognitive work for them.
 
 ---
 
-## 🏆 Recognition
+### 3. Respect the Five-Stage Architecture When Claimed
 
-We believe in recognizing our contributors. When your contribution is merged:
+A standard Coding5s implementation should preserve:
 
-- Your name and GitHub profile will be listed in the contribution's `README.md`
-- Significant contributions may be featured in announcements and documentation
-- You retain full copyright of your original work under the MIT License
+```text
+Practice
+   ↓
+Debug
+   ↓
+Complete
+   ↓
+Refactor
+   ↓
+Extend
+```
+
+Stage 1 should prioritize direct learner interaction with small, understandable, executable examples.
+
+Experimental variants may change this structure, but the deviation must be explicitly documented.
+
+---
+
+### 4. Keep Authoring and Learner Complexity Separate
+
+Creator Kits may contain formulas, variables, validation logic, hidden sheets, generators, and other authoring machinery.
+
+Student-facing artifacts should expose only what the learner needs unless the underlying machinery is intentionally part of the exercise.
+
+---
+
+### 5. Test Proportionally to Your Claims
+
+At minimum:
+
+* execute or use the contribution yourself,
+* document the model, environment, or tool used,
+* record obvious failures or limitations.
+
+Cross-model testing is encouraged.
+
+If a contribution claims to be **model-agnostic**, that claim should be supported by testing across multiple model families.
+
+Document significant:
+
+* instruction loss,
+* behavioral drift,
+* formatting failures,
+* inconsistent outputs,
+* or model-specific limitations.
+
+---
+
+### 6. Document Stateful Behavior
+
+If the contribution involves Stateful5s or cumulative context, explain:
+
+* what state is preserved,
+* where it is stored,
+* how it changes,
+* how later interactions consume it,
+* and what happens when state is missing or corrupted.
+
+No specific persistence mechanism is required.
+
+---
+
+### 7. Reproducibility Where Relevant
+
+If the contribution generates datasets, prompts, exercises, or other synthetic artifacts, use deterministic behavior when practical and document any randomness or external dependencies.
+
+---
+
+### 8. High-Stakes Domains Require Extra Care
+
+Contributions involving medical, legal, aviation, safety-critical, financial, or similar high-stakes domains require:
+
+* authoritative sources,
+* qualified domain review where appropriate,
+* explicit limitations,
+* and suitable safety boundaries.
+
+A Coding5s adaptation does not itself establish professional correctness or suitability.
+
+---
+
+## 🚀 How to Submit a Contribution
+
+1. **Fork the Repository**
+
+2. **Create a Descriptive Branch**
+
+Example:
+
+```text
+feature/contrib-python-oop
+feature/contrib-language-seed
+experiment/mini-stateful5s
+```
+
+3. **Build and Test**
+
+Place the files under `/contributions` using a structure appropriate to the project.
+
+Perform at least one realistic test of the workflow.
+
+4. **Document the Contribution**
+
+Include a `README.md` explaining:
+
+* purpose,
+* target learner or use case,
+* prerequisites,
+* how to use it,
+* architecture or workflow,
+* example output,
+* testing performed,
+* known limitations,
+* and contribution type.
+
+5. **Submit a Pull Request**
+
+Explain what was added or changed and link any related issue, discussion, Research Lab concept, or Ideas to Innovate entry.
+
+Be prepared to revise the contribution based on review.
+
+---
+
+## 🧪 Contribution Maturity
+
+When useful, describe the maturity of the contribution.
+
+Suggested labels:
+
+```text
+CONCEPT
+Idea documented but not implemented.
+
+PROTOTYPE
+Working initial implementation.
+
+TESTED
+Used successfully in at least one realistic workflow.
+
+REFERENCE IMPLEMENTATION
+Documented implementation intended as an example for others.
+
+EXPERIMENTAL
+Intentionally testing an unproven or alternative architecture.
+```
+
+Do not use maturity labels to imply scientific validation unless such validation actually exists.
+
+---
+
+## ⚖️ Licensing & Attribution
+
+Unless explicitly documented otherwise by the repository:
+
+* Contributions must be compatible with the **MIT License**.
+* Contributors retain copyright over their original work.
+* Contributors grant the rights required by the repository license to use, modify, distribute, and build upon the contribution.
+* Third-party assets must have compatible licensing and proper attribution.
+
+Do not submit proprietary, confidential, copyrighted, or restricted material that you do not have permission to distribute.
+
+---
+
+## 🚫 What Not to Contribute
+
+Please do not submit:
+
+* ❌ Undocumented files with no explanation of their purpose
+* ❌ Contributions presented as validated when they have not been tested
+* ❌ Duplicate work without a clear reason for the alternative implementation
+* ❌ Proprietary or confidential datasets
+* ❌ Third-party material without compatible licensing
+* ❌ Content that violates the repository Code of Conduct
+* ❌ High-stakes material presented as professionally validated without appropriate evidence or review
+
+Experimental or incomplete work is allowed when it is labeled honestly.
+
+---
+
+## 💡 Looking for Something to Build?
+
+See:
+
+```text
+/ideas_to_innovate
+```
+
+for candidate Creator Kit improvements, methodology variants, localization ideas, domain adaptations, assessment tools, and other open innovation directions.
+
+For more speculative architectural research, see:
+
+```text
+/research_lab
+```
+
+These directories contain ideas worth exploring; `/contributions` is where working community implementations can begin to take shape.
+
+---
+
+## 🏆 Contributor Recognition
+
+When a contribution is merged:
+
+* the contributor should be credited in the relevant documentation,
+* significant implementations may be referenced from framework documentation,
+* and original authorship remains attributed according to the repository license and contribution history.
+
+Contributions at every scale are welcome—from documentation improvements to complete Creator Kit adaptations.
 
 ---
 
 ## 💬 Questions?
 
-If you have questions about contributing, want to discuss an idea before building it, or need help with the process:
+If you want feedback before building something:
 
-1. **Open a Discussion**: Use GitHub Discussions to ask questions and get feedback from the community
-2. **Check Existing Issues**: Someone might already be working on something similar
-3. **Contact the Creator**: For specific questions about the methodology or architecture, reach out directly
+1. **Open a GitHub Discussion**
+2. **Check existing Issues and Pull Requests**
+3. **Review `/ideas_to_innovate` and `/research_lab` for related work**
+4. **Propose the idea before investing heavily in a large implementation**
 
-We are building this together, and every contribution—no matter how small—helps shape the future of technical education in the Post-AI era.
+A useful contribution does not need to be enormous.
 
-Thank you for being part of the foundational team! 🚀
+It needs to solve a clear problem, expose how it works, and be honest about what has—and has not—been established.
+
+Let's keep building and experimenting. 🚀
