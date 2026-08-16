@@ -19,7 +19,6 @@
 *.pem
 *.key
 *.cert
-*.bat
 
 # --- OS Specific Files ---
 .DS_Store
