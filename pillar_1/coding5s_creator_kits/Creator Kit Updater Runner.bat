@@ -7,7 +7,7 @@ chcp 65001 >nul
 set "vbs_script=%temp%\confirm_update.vbs"
 
 :: Create temporary VBScript dialog
-echo res = MsgBox("Are you sure you want to create all the Student Kits? Remember, this script will look for all Excel files that contain the words (Creator Kit) in their names, and then it will create their respective Student Kits in the language that you set in the student_kit_creator.py file.", 305, "Update Confirmation") > "%vbs_script%"
+echo res = MsgBox("Are you sure you want to perform the mass update on Creator Kits?", 305, "Update Confirmation") > "%vbs_script%"
 echo WScript.Quit(res) >> "%vbs_script%"
 
 :: Execute prompt and capture output
@@ -21,7 +21,7 @@ del "%vbs_script%" >nul 2>&1
 if "%user_choice%"=="1" (
     echo.
     echo Running synchronization script...
-    python student_kit_creator.py
+    python creator_kit_updater.py
     echo.
     echo Process completed.
     echo.

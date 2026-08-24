@@ -2,7 +2,7 @@
 
 **Pillar 1** is the curriculum and authoring layer of the Coding5s Framework.
 
-It provides the spreadsheet-based **Creator Kit**, curriculum-generation workflow, and five-stage learning architecture used to transform technical topics into structured practice sequences.
+It provides the spreadsheet-based **Creator Kit**, the curriculum-generation workflow, the five-stage learning architecture used to transform technical topics into structured practice sequences, and the automation infrastructure required to scale authoring operations globally.
 
 The core lifecycle is:
 
@@ -16,7 +16,8 @@ Complete
 Refactor
    ↓
 Extend
-````
+
+```
 
 The objective is not to make learning frictionless.
 
@@ -139,6 +140,7 @@ Understand Existing Work
 Modify It Under New Requirements
         ↓
 Explain / Defend the Decisions
+
 ```
 
 Stage 5 tests whether the learner can move beyond reproducing the original lesson.
@@ -163,6 +165,7 @@ diagnostic questions
 analogies
 review feedback
 new requirements
+
 ```
 
 The boundary is simpler:
@@ -173,7 +176,7 @@ This principle allows Coding5s to use modern generative AI extensively without t
 
 ---
 
-## 🛠️ The Creator Kit
+## 🛠️ The Creator Kit Workspace (`coding5s_creator_kits/`)
 
 The **Creator Kit** is the spreadsheet-based authoring environment used to construct Coding5s curricula.
 
@@ -189,35 +192,15 @@ It combines:
 
 into structured prompts that can be used with capable LLMs.
 
-The Creator Kit is intentionally spreadsheet-based so an educator or technical author can modify the learning architecture without first building a custom application.
+### ⚙️ Creator Kit Automation Infrastructure
 
-Conceptually:
+To scale authoring operations and eliminate manual friction, the `coding5s_creator_kits/` subdirectory includes a dedicated automation suite powered by Python and background Windows COM Automation (`win32com`):
 
-```text
-Curriculum
-   +
-Technical Rules
-   +
-Stage Rules
-   +
-Configuration Variables
-   +
-Optional Context
-        ↓
-Creator Kit
-        ↓
-Generated Learning Prompts
-        ↓
-Student Practice
-```
+1. **Formula Auto-Injector (`copy_paster_Prompt_Formulas_for_CK.py`):** Extracts complex prompt-generation formulas from the modular generation sheets (`FGen_S1` through `FGen_S5`) and batch-injects them directly into the master `PromptGenerator` sheet across all stage ranges up to row 200. Features an 8,100-character safety guard to prevent Excel formula overflow.
+2. **Creator Kit Updater (`creator_kit_updater.py`):** Performs mass batch updates across all Creator Kits in the directory tree by reading a central data source (`creator_kit_Base_File_for_CKs.xlsx`) and propagating rule changes without disrupting formatting or conditional styles.
+3. **Sync Student Kit Generator (`student_kit_creator.py`):** Scans the directory recursively, opens each Creator Kit in background memory (`DispatchEx`), simulates target language localization (e.g., Spanish, English, German) in cell `B6`, recalculates prompts, extracts static values, and compiles clean, protected distribution files (`Student Kits`) using a global visual template (`Student Kit Template.xlsx`) while leaving master Creator Kits 100% untouched.
 
-### Language & Context Adaptation
-
-The generated course can use a selected human output language.
-
-For languages where ordinary model performance requires stronger linguistic grounding, a **Language Seed Context** can optionally be incorporated into the generation workflow.
-
-The technical subject and the human language used to teach it are treated as separate configuration dimensions.
+Each tool includes 1-click execution batch scripts (`.bat`) and comprehensive documentation guides inside its folder.
 
 ---
 
@@ -268,19 +251,19 @@ They should be treated as **reference execution samples**, not formal benchmarks
 
 ### 💧 Elixir Fundamentals
 
-* **Stage 1:** [Deepseek](https://chat.deepseek.com/share/f25k90ctorqcel8e2p) | [Gemini](https://share.gemini.google/eznT27nS6B9v)
-* **Stage 2:** [Deepseek](https://chat.deepseek.com/share/q0qab0pxevw8wx3gir) | [Gemini](https://share.gemini.google/tFvcGx1lLind)
-* **Stage 3:** [Deepseek](https://chat.deepseek.com/share/voaqju9fef5k2si84v) | [Gemini](https://share.gemini.google/HkkaBKsKCxHh)
-* **Stage 4:** [Deepseek](https://chat.deepseek.com/share/ufazugtx55rzu87dkv) | [Grok](https://grok.com/share/c2hhcmQtMg_27517b30-0c23-44c4-b072-5c4b80b87b12)
-* **Stage 5:** [Deepseek](https://chat.deepseek.com/share/rjjyni491d8s5d2epf) | [Grok](https://grok.com/share/c2hhcmQtMg_dc7343bd-9559-4ece-8fa5-bf0f7649b942)
+* **Stage 1:** [suspicious link removed] | [Gemini](https://share.gemini.google/eznT27nS6B9v)
+* **Stage 2:** [suspicious link removed] | [Gemini](https://share.gemini.google/tFvcGx1lLind)
+* **Stage 3:** [suspicious link removed] | [Gemini](https://share.gemini.google/HkkaBKsKCxHh)
+* **Stage 4:** [suspicious link removed] | [Grok](https://grok.com/share/c2hhcmQtMg_27517b30-0c23-44c4-b072-5c4b80b87b12)
+* **Stage 5:** [suspicious link removed] | [Grok](https://grok.com/share/c2hhcmQtMg_dc7343bd-9559-4ece-8fa5-bf0f7649b942)
 
 ### 🐍 Python Core & Scripting
 
-* **Stage 1:** [Deepseek](https://chat.deepseek.com/share/7a2e9kshfuxk0vgwqy) | [Grok](https://grok.com/share/c2hhcmQtMg_2397f881-723b-44b5-8803-c7d10a86494a) | [ChatGPT](https://chatgpt.com/share/6a5d4652-f8a4-83e8-9740-9607b5e948be)
-* **Stage 2:** [Deepseek](https://chat.deepseek.com/share/dla5tvgm203ds75dx8) | [Grok](https://grok.com/share/c2hhcmQtMg_96e5969c-7906-486f-873b-66b6458e2e83) | [ChatGPT](https://chatgpt.com/share/6a5d4a31-6564-83e8-9fe3-5dc236e8ff53)
-* **Stage 3:** [Deepseek](https://chat.deepseek.com/share/bvxhxdj49bw6gue4pp) | [Grok](https://grok.com/share/c2hhcmQtMg_9761e0fd-e5dc-4450-bf0f-905929a3ed02) | [ChatGPT](https://chatgpt.com/share/6a5d4cc2-c524-83e8-878f-c1cb36188bf1)
-* **Stage 4:** [Deepseek](https://chat.deepseek.com/share/hl70bzbswbj3e9fbnn) | [Grok](https://grok.com/share/c2hhcmQtMg_d79fd554-9c13-4c19-a866-d0834c18a122) | [ChatGPT](https://chatgpt.com/share/6a5d4ecb-b350-83e8-93c8-cd9cc10704cc)
-* **Stage 5:** [Deepseek](https://chat.deepseek.com/share/w3c7bxj88o40p6gs1l) | [Grok](https://grok.com/share/c2hhcmQtMg_003f4dd0-79d7-45f2-97da-cb1e5749fd50) | [ChatGPT](https://chatgpt.com/share/6a5d53dd-3370-83e8-a5f8-07f66f90582b)
+* **Stage 1:** [suspicious link removed] | [Grok](https://grok.com/share/c2hhcmQtMg_2397f881-723b-44b5-8803-c7d10a86494a) | [ChatGPT](https://chatgpt.com/share/6a5d4652-f8a4-83e8-9740-9607b5e948be)
+* **Stage 2:** [suspicious link removed] | [Grok](https://grok.com/share/c2hhcmQtMg_96e5969c-7906-486f-873b-66b6458e2e83) | [ChatGPT](https://chatgpt.com/share/6a5d4a31-6564-83e8-9fe3-5dc236e8ff53)
+* **Stage 3:** [suspicious link removed] | [Grok](https://grok.com/share/c2hhcmQtMg_9761e0fd-e5dc-4450-bf0f-905929a3ed02) | [ChatGPT](https://chatgpt.com/share/6a5d4cc2-c524-83e8-878f-c1cb36188bf1)
+* **Stage 4:** [suspicious link removed] | [Grok](https://grok.com/share/c2hhcmQtMg_d79fd554-9c13-4c19-a866-d0834c18a122) | [ChatGPT](https://chatgpt.com/share/6a5d4ecb-b350-83e8-93c8-cd9cc10704cc)
+* **Stage 5:** [suspicious link removed] | [Grok](https://grok.com/share/c2hhcmQtMg_003f4dd0-79d7-45f2-97da-cb1e5749fd50) | [ChatGPT](https://chatgpt.com/share/6a5d53dd-3370-83e8-a5f8-07f66f90582b)
 
 Model behavior can change over time, and shared execution links may eventually become unavailable. These examples document historical behavior observed during framework development.
 
@@ -319,8 +302,11 @@ during that practice?
 PILLAR 3
 What useful context should persist
 as the learner progresses?
+
 ```
 
 The three pillars can work together, but Pillar 1 remains independently useful as the curriculum and practice architecture of Coding5s.
+
+```
 
 ```
