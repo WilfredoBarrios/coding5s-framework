@@ -1,0 +1,62 @@
+{
+  "English": {
+    "category": "High-Resource Language",
+    "spoken_in": "United States / International"
+  },
+  "Spanish": {
+    "category": "High-Resource Language",
+    "spoken_in": "Guatemala / Latin America / Spain"
+  },
+  "French": {
+    "category": "High-Resource Language",
+    "spoken_in": "France / Canada"
+  },
+  "German": {
+    "category": "High-Resource Language",
+    "spoken_in": "Germany / Central Europe"
+  },
+  "Portuguese": {
+    "category": "High-Resource Language",
+    "spoken_in": "Brazil / Portugal"
+  },
+  "K'iche'": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Guatemala (Highlands)"
+  },
+  "Kaqchikel": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Guatemala (Central)"
+  },
+  "Q'eqchi'": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Guatemala (Alta Verapaz / Petén)"
+  },
+  "Mam": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Guatemala (Huehuetenango / San Marcos)"
+  },
+  "Poqomchi'": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Guatemala (Alta & Baja Verapaz)"
+  },
+  "Tzutujil": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Guatemala (Sololá / Atitlán)"
+  },
+  "Nahuatl": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Mexico"
+  },
+  "Quechua": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Peru / Bolivia / Ecuador"
+  },
+  "Aymara": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Bolivia / Peru"
+  },
+  "Guarani": {
+    "category": "Low-Resource Indigenous Language",
+    "spoken_in": "Paraguay"
+  }
+}

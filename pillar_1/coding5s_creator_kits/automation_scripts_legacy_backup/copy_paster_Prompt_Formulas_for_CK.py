@@ -5,7 +5,7 @@ import win32com.client
 # ⚙️ CONFIGURACIÓN PRINCIPAL
 # ==========================================
 # 1. Coloca aquí el nombre exacto del Creator Kit que estás editando
-ARCHIVO_CREATOR_KIT = "Coding5s Python Core & Scripting v0.4 Creator Kit.xlsx" 
+ARCHIVO_CREATOR_KIT = "Coding5s Python OOP Lib CustomTkinter Creator Kit v0.4.xlsx" 
 
 # 2. Límite de seguridad
 LIMITE_CARACTERES = 8100
