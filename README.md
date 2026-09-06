@@ -59,12 +59,23 @@ Pillar 1 now features a fully automated Windows COM background suite (`win32com.
 
 #### 🎥 Automation Hub Walkthroughs
 
-The following short walkthroughs demonstrate the current Windows Automation Hub interface and the main operations exposed through its first four tabs.
+The following walkthroughs demonstrate the current Windows Automation Hub interface and the main operations exposed through its first four tabs.
 
-* **Tab 1 — Formula Injector:** [▶️ Watch walkthrough](https://github.com/user-attachments/assets/2ea0a3d5-a781-48d9-90b7-2badbf274ef0)
-* **Tab 2 — BaseData Updater:** [▶️ Watch walkthrough](https://github.com/user-attachments/assets/5e56f36c-ab8c-46f2-84a8-260dc4a5ba77)
-* **Tab 3 — Student Kit Generator & Language Sync:** [▶️ Watch walkthrough](https://github.com/user-attachments/assets/800ce487-0873-49cf-8ade-34d032f46ed2)
-* **Tab 4 — Open & Save Files:** [▶️ Watch walkthrough](https://github.com/user-attachments/assets/fcf1b1f7-cd00-4ed3-9f55-42a621d99b1f)
+https://github.com/user-attachments/assets/2ea0a3d5-a781-48d9-90b7-2badbf274ef0
+
+> *Tab 1 — Formula Injector*
+
+https://github.com/user-attachments/assets/5e56f36c-ab8c-46f2-84a8-260dc4a5ba77
+
+> *Tab 2 — BaseData Updater*
+
+https://github.com/user-attachments/assets/800ce487-0873-49cf-8ade-34d032f46ed2
+
+> *Tab 3 — Student Kit Generator & Language Sync*
+
+https://github.com/user-attachments/assets/fcf1b1f7-cd00-4ed3-9f55-42a621d99b1f
+
+> *Tab 4 — Open & Save Files*
 
 ---
 
