@@ -45,6 +45,27 @@ The solution is structured into independent modules that separate the graphical 
 
 ## 3. Detailed Tabs and Functional Features
 
+### 🎥 Automation Hub Walkthroughs
+
+The following walkthroughs demonstrate the current interface and workflow of the Automation Hub's first four tabs.
+
+https://github.com/user-attachments/assets/2ea0a3d5-a781-48d9-90b7-2badbf274ef0
+
+> *Tab 1 — Formula Injector*
+
+https://github.com/user-attachments/assets/5e56f36c-ab8c-46f2-84a8-260dc4a5ba77
+
+> *Tab 2 — BaseData Updater*
+
+https://github.com/user-attachments/assets/800ce487-0873-49cf-8ade-34d032f46ed2
+
+> *Tab 3 — Student Kit Generator & Language Sync*
+
+https://github.com/user-attachments/assets/fcf1b1f7-cd00-4ed3-9f55-42a621d99b1f
+
+> *Tab 4 — Open Files (Excel Explorer)*
+
+
 ### Tab 1: 💉 Formula Injector
 
 * **Purpose:** Automate the mass injection of logical formulas extracted from generator sheets (`FGen_S1` to `FGen_S5`) into the central `PromptGenerator` module of a selected *Creator Kit*.
