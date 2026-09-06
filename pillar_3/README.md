@@ -402,3 +402,6 @@ as the learner progresses?
 Together, the three pillars allow Coding5s to move from isolated AI-generated exercises toward structured learning environments that can evolve over time.
 
 > **Stateful5s is not about making the AI remember everything. It is about deciding what must not be forgotten.**
+
+## check the example lesson:
+![Generated Stage 1 exercise output](assets/images/stateful5s-example-lesson.png)
