@@ -261,7 +261,11 @@ def ejecutar_actualizacion_base(
                     celda_inicio = ws_ck.Range(c_dest)
                     celda_fin = ws_ck.Cells(celda_inicio.Row + filas - 1, celda_inicio.Column + columnas - 1)
 
-                    ws_ck.Range(celda_inicio, celda_fin).Value = matriz
+                    rango_destino = ws_ck.Range(celda_inicio, celda_fin)
+                    rango_destino.Value = matriz
+                    # 🔥 NUEVO: Apagar el ajuste automático de texto
+                    rango_destino.WrapText = False
+
                     callback_log(f"  -> Applied Range {i + 1} to '{p_dest}' @ {c_dest}\n")
 
                 time.sleep(0.1)

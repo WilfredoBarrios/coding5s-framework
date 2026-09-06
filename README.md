@@ -29,6 +29,7 @@ The framework unifies technical training and infrastructure engineering into an 
 │  Generator   │      │Mentors Swarm │      │  Networking  │
 └──────────────┘      └──────────────┘      └──────────────┘
 
+
 ```
 
 1. **Pillar 1: Curriculum & Course Generator (The Creator Kit Workspace):** Automated matrix orchestration architectures built on advanced spreadsheet data models and background Python COM automation. It compiles structured, multi-stage programming courses and synchronizes localized Student Kits at massive scale.
@@ -43,11 +44,11 @@ The framework unifies technical training and infrastructure engineering into an 
 
 Pillar 1 focuses on automating the construction of specialized software engineering micro-learning tracks. Using the `coding5s_creator_kits` workspace, educators and developers define a core technology syllabus. The engine then algorithmically compiles high-density, granular study tracks structured around the **Five Immutable Stages**:
 
-* **Stage 1 (Practice):** Strict manual code replication to build mechanical and muscle memory.
-* **Stage 2 (Debug):** Intentional injection of structural or syntax bugs that the user must isolate and resolve.
-* **Stage 3 (Complete):** Code blocks with logical gaps where the student must engineer missing control flows.
-* **Stage 4 (Refactor):** Optimizing clean code paradigms, execution complexity, and resource allocation.
-* **Stage 5 (Extend):** Scalability labs designed to attach new feature vectors to the verified codebase.
+* **Stage 1 (Practice):** Strict manual code replication to build mechanical and muscle memory. — [🔗 Live Example: Stage 1](https://coding5s.com/stage-1/)
+* **Stage 2 (Debug):** Intentional injection of structural or syntax bugs that the user must isolate and resolve. — [🔗 Live Example: Stage 2](https://coding5s.com/stage-2/)
+* **Stage 3 (Complete):** Code blocks with logical gaps where the student must engineer missing control flows. — [🔗 Live Example: Stage 3](https://coding5s.com/stage-3/)
+* **Stage 4 (Refactor):** Optimizing clean code paradigms, execution complexity, and resource allocation. — [🔗 Live Example: Stage 4](https://coding5s.com/stage-4/)
+* **Stage 5 (Extend):** Scalability labs designed to attach new feature vectors to the verified codebase. — [🔗 Live Example: Stage 5](https://coding5s.com/stage-5/)
 
 #### ⚙️ Pillar 1 Automation Engine (v0.6 Suite)
 
@@ -57,7 +58,7 @@ Pillar 1 now features a fully automated Windows COM background suite (`win32com.
 * **Creator Kit Mass Updater (`creator_kit_updater.py`):** Propagates global rules or base parameters across all Creator Kits in the directory tree without disrupting formatting or conditional styles.
 * **Sync Student Kit Generator (`student_kit_creator.py`):** Localizes prompts in memory, extracts static values, clones master templates, and outputs ready-to-distribute, protected Student Kits while leaving master Creator Kits pristine and untouched.
 
-#### 🎥 Automation Hub Walkthroughs
+#### 🎥 Automation Hub Walkthroughs & Web Outputs
 
 The following walkthroughs demonstrate the current Windows Automation Hub interface and the main operations exposed through its first four tabs.
 
@@ -71,11 +72,19 @@ https://github.com/user-attachments/assets/5e56f36c-ab8c-46f2-84a8-260dc4a5ba77
 
 https://github.com/user-attachments/assets/800ce487-0873-49cf-8ade-34d032f46ed2
 
-> *Tab 3 — Student Kit Generator & Language Sync*
+> *Tab 3 — Student Kit Generator & Language Sync* Generation speed accelerated in video. It takes about 20 sec per kit.
 
 https://github.com/user-attachments/assets/fcf1b1f7-cd00-4ed3-9f55-42a621d99b1f
 
 > *Tab 4 — Open & Save Files*
+
+#### 📄 Rendered Exercise Output Example
+
+Below is a live render of an exercise generated through Pillar 1 and rendered on the Web Platform:
+
+![Generated Stage 1 exercise output](assets/images/generated-exercise-output.png)
+
+> *Example — Generated exercise output from Stage 1 (Practice)*
 
 ---
 
@@ -86,6 +95,33 @@ Pillar 2 manages the execution of behavioral and pedagogical guidance. Rather th
 * These mentors do not serve as code generators; they act as cognitive mirrors.
 * Each agent in the swarm is bound by a strict socratic loop: they analyze the student's errors, formulate contextual questions, and force the user to deduce the underlying computational logic themselves.
 * *Note: Every mentor in this swarm contains its own decoupled documentation explaining its target behavior, behavioral constraints, and internal evaluation mechanics.*
+
+#### 💬 Live Interactive Mentors
+
+You can test and interact with the deployed Socratic Mentors directly on the platform:
+
+* **Stage-Specific Mentors:**
+* 🧠 [Mentor Stage 1 (Practice)](https://coding5s.com/mentor-stage-1/)
+* 🐛 [Mentor Stage 2 (Debug)](https://coding5s.com/mentor-stage-2/)
+* 🧩 [Mentor Stage 3 (Complete)](https://coding5s.com/mentor-stage-3/)
+* ⚡ [Mentor Stage 4 (Refactor)](https://coding5s.com/mentor-stage-4/)
+* 🚀 [Mentor Stage 5 (Extend)](https://coding5s.com/mentor-stage-5/)
+
+
+* **Specialized Architectural Mentors:**
+* 🏛️ [Legacy Architect Mentor](https://coding5s.com/legacy-architect-mentor/)
+* ⚛️ [Atomic Code Formula Mentor](https://coding5s.com/atomic-code-formula-mentor/)
+* 🌉 [Bridge Mentor (Python to Elixir - Phase 1)](https://coding5s.com/bridge-mentor-python-to-elixir-phase-1/)
+
+
+
+#### 📸 Socratic Mentor Session in Action
+
+The following screenshot shows a Socratic Mentor interaction running through the deployed mentoring layer:
+
+![Socratic Mentor session example](assets/images/socratic-mentor-session.png)
+
+> *Example — Socratic Mentor session guiding the learner through the problem-solving process*
 
 ---
 
