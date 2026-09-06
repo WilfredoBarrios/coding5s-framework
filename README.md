@@ -1,6 +1,6 @@
-# ⚡ Coding5s Framework v0.5
+# ⚡ Coding5s Framework v0.6
 
-[![Release](https://img.shields.io/badge/Release-v0.5--beta-blueviolet?style=for-the-badge)](https://github.com/)
+[![Release](https://img.shields.io/badge/Release-v0.6--beta-blueviolet?style=for-the-badge)](https://github.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Pedagogy](https://img.shields.io/badge/Pedagogy-Controlled%20Cognitive%20Friction-orange?style=for-the-badge)](docs/METHODOLOGY.md)
 
@@ -49,13 +49,22 @@ Pillar 1 focuses on automating the construction of specialized software engineer
 * **Stage 4 (Refactor):** Optimizing clean code paradigms, execution complexity, and resource allocation.
 * **Stage 5 (Extend):** Scalability labs designed to attach new feature vectors to the verified codebase.
 
-#### ⚙️ Pillar 1 Automation Engine (v0.5 Suite)
+#### ⚙️ Pillar 1 Automation Engine (v0.6 Suite)
 
 Pillar 1 now features a fully automated Windows COM background suite (`win32com.client.DispatchEx`) accessible via 1-click `.bat` runners:
 
 * **Formula Auto-Injector (`copy_paster_Prompt_Formulas_for_CK.py`):** Automatically compiles and injects multi-stage prompt formulas from `FGen` tabs into `PromptGenerator` ranges up to row 200, equipped with an 8,100-character safety guard.
 * **Creator Kit Mass Updater (`creator_kit_updater.py`):** Propagates global rules or base parameters across all Creator Kits in the directory tree without disrupting formatting or conditional styles.
 * **Sync Student Kit Generator (`student_kit_creator.py`):** Localizes prompts in memory, extracts static values, clones master templates, and outputs ready-to-distribute, protected Student Kits while leaving master Creator Kits pristine and untouched.
+
+#### 🎥 Automation Hub Walkthroughs
+
+The following short walkthroughs demonstrate the current Windows Automation Hub interface and the main operations exposed through its first four tabs.
+
+* **Tab 1 — Formula Injector:** [▶️ Watch walkthrough](https://github.com/user-attachments/assets/2ea0a3d5-a781-48d9-90b7-2badbf274ef0)
+* **Tab 2 — BaseData Updater:** [▶️ Watch walkthrough](https://github.com/user-attachments/assets/5e56f36c-ab8c-46f2-84a8-260dc4a5ba77)
+* **Tab 3 — Student Kit Generator & Language Sync:** [▶️ Watch walkthrough](https://github.com/user-attachments/assets/800ce487-0873-49cf-8ade-34d032f46ed2)
+* **Tab 4 — Open & Save Files:** [▶️ Watch walkthrough](https://github.com/user-attachments/assets/fcf1b1f7-cd00-4ed3-9f55-42a621d99b1f)
 
 ---
 

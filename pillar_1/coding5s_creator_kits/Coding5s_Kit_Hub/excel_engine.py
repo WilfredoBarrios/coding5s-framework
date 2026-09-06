@@ -6,7 +6,8 @@ import tempfile
 from utils import is_file_locked
 
 
-def ejecutar_inyeccion_formulas(lista_kits, directorio_raiz, callback_log=print, callback_progress=None):
+def ejecutar_inyeccion_formulas(lista_kits, directorio_raiz, callback_log=print, callback_progress=None,
+                                cancel_event=None):
     limite_caracteres = 8100
     pestana_destino = "PromptGenerator"
     fila_fin = 200
@@ -47,6 +48,11 @@ def ejecutar_inyeccion_formulas(lista_kits, directorio_raiz, callback_log=print,
         excel.Interactive = False
 
         for idx, kit in enumerate(lista_kits):
+            # 🔥 NUEVO: Comprobar si el usuario presionó cancelar
+            if cancel_event and cancel_event.is_set():
+                callback_log("\n⚠️ [CANCELLED] Process interrupted by user.\n")
+                break
+
             nombre_kit = kit["nombre"]
             ruta_kit = kit["ruta"]
 
@@ -60,7 +66,6 @@ def ejecutar_inyeccion_formulas(lista_kits, directorio_raiz, callback_log=print,
                 fallidos += 1
                 continue
 
-            # --- EPHEMERAL BACKUP ---
             temp_dir = tempfile.gettempdir()
             backup_path = os.path.join(temp_dir, f"backup_{int(time.time())}_{nombre_kit}")
             shutil.copy2(ruta_kit, backup_path)
@@ -92,32 +97,29 @@ def ejecutar_inyeccion_formulas(lista_kits, directorio_raiz, callback_log=print,
                             exito_kit = False
                             break
 
-                        # --- SISTEMA DE REINTENTO ANTI-SATURACIÓN COM ---
                         exito_escritura = False
                         intentos_maximos = 5
 
                         for intento in range(intentos_maximos):
-                          try:
-                            # Forzar a Excel a respirar antes de recibir el bloque masivo
-                            time.sleep(0.2)
-                            ws_destino.Range(rango_pegar_full).Formula = formula_texto
-                            exito_escritura = True
-                            break
-                          except Exception as err_com:
-                            if "busy" in str(err_com) and intento < intentos_maximos - 1:
-                              time.sleep(1.0 * (intento + 1))  # Pausa exponencial más larga (1s, 2s, 3s...)
-                              try:
-                                excel.Calculate()
-                              except:
-                                pass
-                            else:
-                              raise err_com
+                            try:
+                                time.sleep(0.2)
+                                ws_destino.Range(rango_pegar_full).Formula = formula_texto
+                                exito_escritura = True
+                                break
+                            except Exception as err_com:
+                                if "busy" in str(err_com) and intento < intentos_maximos - 1:
+                                    time.sleep(1.0 * (intento + 1))
+                                    try:
+                                        excel.Calculate()
+                                    except:
+                                        pass
+                                else:
+                                    raise err_com
 
                         if not exito_escritura:
-                          raise Exception("Excel remained busy after multiple retries.")
-                        # -----------------------------------------------
+                            raise Exception("Excel remained busy after multiple retries.")
 
-                        time.sleep(0.1)  # Respiro final para la tarea
+                        time.sleep(0.1)
                         callback_log(
                             f"  ✅ {sheet_origen} -> {col_destino}9:{col_destino}{fila_fin} [{largo_formula} chars]\n")
 
@@ -165,20 +167,18 @@ def ejecutar_inyeccion_formulas(lista_kits, directorio_raiz, callback_log=print,
 def ejecutar_actualizacion_base(
         lista_kits,
         directorio_raiz,
+        lista_rangos,
         archivo_base="creator_kit_Base_File_for_CKs.xlsx",
-        pestana_base="BaseData",
-        rango_copiar="A1:B10",
-        pestana_destino_ck="FGen_S1",
-        celda_destino="C95",
         callback_log=print,
-        callback_progress=None
+        callback_progress=None,
+        cancel_event=None
 ):
     ruta_base = os.path.join(directorio_raiz, archivo_base)
     if not os.path.exists(ruta_base):
         callback_log(f"❌ [CRITICAL ERROR] Base file not found: '{archivo_base}'\n")
         return False
 
-    if not lista_kits:
+    if not lista_kits or not lista_rangos:
         return False
 
     excel = None
@@ -194,21 +194,36 @@ def ejecutar_actualizacion_base(
         excel.EnableEvents = False
         excel.Interactive = False
 
-        callback_log(f"📥 Reading base matrix from '{archivo_base}' -> Sheet: '{pestana_base}' [{rango_copiar}]...\n")
+        callback_log(f"📥 Reading base matrices from '{archivo_base}'...\n")
         wb_base = excel.Workbooks.Open(ruta_base)
-
-        # Validar existencia de la pestaña base
         nombres_pestanas_base = [sheet.Name for sheet in wb_base.Sheets]
-        if pestana_base not in nombres_pestanas_base:
-            callback_log(
-                f"❌ [ERROR] Sheet '{pestana_base}' does not exist in Base File. Available: {nombres_pestanas_base}\n")
-            wb_base.Close(False)
-            return False
 
-        matriz_valores = wb_base.Sheets(pestana_base).Range(rango_copiar).Value
+        # Guardar en memoria los valores extraidos de los rangos habilitados
+        matrices = []
+        for i, rango in enumerate(lista_rangos):
+            p_base = rango["pestana_base"]
+            r_copiar = rango["rango_copiar"]
+            if p_base not in nombres_pestanas_base:
+                callback_log(f"❌ [ERROR] Sheet '{p_base}' does not exist in Base File.\n")
+                wb_base.Close(False)
+                return False
+            try:
+                matriz = wb_base.Sheets(p_base).Range(r_copiar).Value
+                matrices.append(matriz)
+                callback_log(f"  -> Extracted Range {i + 1} from '{p_base}' [{r_copiar}]\n")
+            except Exception as e:
+                callback_log(f"❌ [ERROR] Failed to extract Range {i + 1} from '{p_base}': {e}\n")
+                wb_base.Close(False)
+                return False
+
         wb_base.Close(False)
 
         for idx, kit in enumerate(lista_kits):
+            # 🔥 NUEVO: Comprobar si el usuario presionó cancelar
+            if cancel_event and cancel_event.is_set():
+                callback_log("\n⚠️ [CANCELLED] Process interrupted by user.\n")
+                break
+
             nombre_kit = kit["nombre"]
             ruta_kit = kit["ruta"]
 
@@ -229,22 +244,26 @@ def ejecutar_actualizacion_base(
             wb_ck = None
             try:
                 wb_ck = excel.Workbooks.Open(ruta_kit)
-
-                # Validar existencia de la pestaña destino en el Creator Kit
                 nombres_pestanas_ck = [sheet.Name for sheet in wb_ck.Sheets]
-                if pestana_destino_ck not in nombres_pestanas_ck:
-                    raise Exception(
-                        f"Sheet '{pestana_destino_ck}' does not exist in target kit. Available: {nombres_pestanas_ck}")
 
-                ws_ck = wb_ck.Sheets(pestana_destino_ck)
+                for i, rango in enumerate(lista_rangos):
+                    p_dest = rango["pestana_destino_ck"]
+                    c_dest = rango["celda_destino"]
+                    matriz = matrices[i]
 
-                filas = len(matriz_valores)
-                columnas = len(matriz_valores[0]) if isinstance(matriz_valores[0], (list, tuple)) else 1
+                    if p_dest not in nombres_pestanas_ck:
+                        raise Exception(f"Sheet '{p_dest}' does not exist in target kit.")
 
-                celda_inicio = ws_ck.Range(celda_destino)
-                celda_fin = ws_ck.Cells(celda_inicio.Row + filas - 1, celda_inicio.Column + columnas - 1)
+                    ws_ck = wb_ck.Sheets(p_dest)
+                    filas = len(matriz)
+                    columnas = len(matriz[0]) if isinstance(matriz[0], (list, tuple)) else 1
 
-                ws_ck.Range(celda_inicio, celda_fin).Value = matriz_valores
+                    celda_inicio = ws_ck.Range(c_dest)
+                    celda_fin = ws_ck.Cells(celda_inicio.Row + filas - 1, celda_inicio.Column + columnas - 1)
+
+                    ws_ck.Range(celda_inicio, celda_fin).Value = matriz
+                    callback_log(f"  -> Applied Range {i + 1} to '{p_dest}' @ {c_dest}\n")
+
                 time.sleep(0.1)
                 excel.Calculate()
                 time.sleep(0.1)
@@ -252,7 +271,7 @@ def ejecutar_actualizacion_base(
                 wb_ck.Close(True)
                 os.remove(backup_path)
                 exitosos += 1
-                callback_log(f"  ✅ BaseData updated successfully in '{pestana_destino_ck}' @ {celda_destino}.\n")
+                callback_log(f"  ✅ All configured BaseData ranges updated successfully.\n")
             except Exception as e:
                 if wb_ck: wb_ck.Close(False)
                 shutil.copy2(backup_path, ruta_kit)
@@ -277,22 +296,17 @@ def ejecutar_actualizacion_base(
                 pass
 
 
-def ejecutar_generacion_student_kits(lista_kits, directorio_raiz, idioma_objetivo, callback_log=print,
-                                     callback_progress=None):
-    template_global = os.path.join(directorio_raiz, "Student Kit Template.xlsx")
-    password_gracias = "wil"
+def ejecutar_generacion_student_kits(lista_kits, directorio_raiz, idioma_objetivo, callback_progress, callback_log,
+                                     cancel_event=None):
+    exito_global = True
+    total = len(lista_kits)
+    template_path = os.path.join(directorio_raiz, "Student_Kit_Template.xlsx")
 
-    if not os.path.exists(template_global):
-        callback_log(f"❌ [CRITICAL ERROR] 'Student Kit Template.xlsx' not found.\n")
-        return False
-    if not lista_kits:
+    if not os.path.exists(template_path):
+        callback_log("❌ Error: 'Student_Kit_Template.xlsx' not found in root directory.\n")
         return False
 
     excel = None
-    exitosos = 0
-    fallidos = 0
-    total = len(lista_kits)
-
     try:
         excel = win32com.client.DispatchEx("Excel.Application")
         excel.Visible = False
@@ -301,80 +315,132 @@ def ejecutar_generacion_student_kits(lista_kits, directorio_raiz, idioma_objetiv
         excel.EnableEvents = False
         excel.Interactive = False
 
-        for idx, kit in enumerate(lista_kits):
-            nombre_creator = kit["nombre"]
-            ruta_creator = kit["ruta"]
-            carp_actual = os.path.dirname(ruta_creator)
+        for i, kit in enumerate(lista_kits, start=1):
+            # 🔥 NUEVO: Comprobar si el usuario presionó cancelar
+            if cancel_event and cancel_event.is_set():
+                callback_log("\n⚠️ [CANCELLED] Process interrupted by user.\n")
+                exito_global = False
+                break
 
-            if callback_progress:
-                callback_progress(idx + 1, total, nombre_creator)
+            creator_path = kit["ruta"]
+            nombre_creator = kit.get("nombre", kit.get("nombre_real", "Unknown Kit"))
+            callback_progress(i, total, nombre_creator)
+            callback_log(f"\n[{i}/{total}] Processing: {nombre_creator}\n")
 
-            callback_log(f"\n🎓 Generating Student Kit ({idx + 1}/{total}): {nombre_creator}\n")
-
-            if is_file_locked(ruta_creator):
-                callback_log(f"  ❌ [LOCKED] Creator Kit is open or locked. Skipping.\n")
-                fallidos += 1
+            if is_file_locked(creator_path):
+                callback_log(f"  ❌ [LOCKED] File is open or locked. Skipping.\n")
+                exito_global = False
                 continue
 
-            base_nombre = nombre_creator.replace("Creator Kit", f"Student Kit ({idioma_objetivo})")
-            nombre_student_esperado = " ".join(base_nombre.split())
-            ruta_student = os.path.join(carp_actual, nombre_student_esperado)
-
-            if is_file_locked(ruta_student):
-                callback_log(f"  ❌ [LOCKED] Target Student Kit is currently open. Skipping.\n")
-                fallidos += 1
-                continue
-
-            if not os.path.exists(ruta_student):
-                shutil.copy(template_global, ruta_student)
-                callback_log(f"  📁 Created new template copy: {nombre_student_esperado}\n")
-
-            wb_creator, wb_est = None, None
             try:
-                wb_creator = excel.Workbooks.Open(ruta_creator)
-                ws_creator = wb_creator.Sheets("PromptGenerator")
-                ws_creator.Range("B6").Value = idioma_objetivo
-                excel.Calculate()
-                time.sleep(0.1)
+                # 1. Determinar el nombre
+                if "Creator Kit" in nombre_creator:
+                    nuevo_nombre = nombre_creator.replace("Creator Kit", f"Student Kit ({idioma_objetivo})")
+                else:
+                    nombre_base = os.path.splitext(nombre_creator)[0]
+                    nuevo_nombre = f"{nombre_base} Student Kit ({idioma_objetivo}).xlsx"
 
-                matriz_valores = ws_creator.Range("E9:Y200").Value
+                student_path = os.path.join(os.path.dirname(creator_path), nuevo_nombre)
+
+                # 2. Copiar Template
+                callback_log(f"  -> Creating copy: {nuevo_nombre}\n")
+                shutil.copy2(template_path, student_path)
+
+                # 3. Extraer valores del Creator Kit con COM
+                callback_log("  -> Opening Creator Kit to update language and trigger prompt formulas...\n")
+                wb_creator = excel.Workbooks.Open(creator_path)
+
+                nombres_pestanas_ck = [sheet.Name for sheet in wb_creator.Sheets]
+                if "PromptGenerator" not in nombres_pestanas_ck:
+                    callback_log("  ❌ Error: 'PromptGenerator' sheet not found in Creator Kit.\n")
+                    wb_creator.Close(False)
+                    exito_global = False
+                    continue
+
+                ws_creator = wb_creator.Sheets("PromptGenerator")
+
+                # 🔥 NUEVO: Inyectar el idioma objetivo en B6 para forzar recálculo de fórmulas de prompts
+                ws_creator.Range("B6").Value = idioma_objetivo
+                excel.Calculate()  # Le decimos a Excel que procese todas las fórmulas nuevas
+                time.sleep(0.5)  # Breve pausa de seguridad para garantizar que el motor de Excel termine
+
+                callback_log("  -> Extracting updated values from Creator Kit (E9:Y200 y I2:I3)...\n")
+                valores_crudos = ws_creator.Range("E9:Y200").Value
+
+                # Extraer los valores adicionales de I2:I3
                 valores_i2_i3 = ws_creator.Range("I2:I3").Value
+
+                # Cerramos el Creator Kit SIN guardar (False) para mantener intacto tu archivo original
                 wb_creator.Close(False)
 
-                wb_est = excel.Workbooks.Open(ruta_student)
-                try:
-                    wb_est.Unprotect(password_gracias)
-                except:
-                    pass
+                # --- FILTRO LIMPIADOR DE ERRORES Y MATRIZ ---
+                valores_limpios = []
+                for fila in valores_crudos:
+                    fila_limpia = []
+                    for celda in fila:
+                        # Filtrar errores nativos de Excel transmitidos por COM (ints negativos)
+                        if isinstance(celda, int) and celda <= -2146826200:
+                            fila_limpia.append("")
+                        # Filtrar cadenas de texto que representan errores
+                        elif isinstance(celda, str) and celda.strip().upper() in ["#N/A", "#REF!", "#VALUE!", "#NAME?",
+                                                                                  "#DIV/0!", "#NUM!"]:
+                            fila_limpia.append("")
+                        else:
+                            fila_limpia.append(celda)
+                    valores_limpios.append(tuple(fila_limpia))
 
-                ws_est = wb_est.Sheets("Coding5sStudentKit")
-                filas, columnas = len(matriz_valores), len(matriz_valores[0])
+                # 4. Inyección directa respetando tus columnas Track intactas
+                callback_log("  -> Injecting values, language, and applying workbook protection...\n")
+                wb_student = excel.Workbooks.Open(student_path)
 
-                ws_est.Range(ws_est.Cells(9, 2), ws_est.Cells(9 + filas - 1, 2 + columnas - 1)).Value = matriz_valores
-                ws_est.Range("G2:G3").Value = valores_i2_i3
-                time.sleep(0.1)
+                nombres_pestanas_stu = [sheet.Name for sheet in wb_student.Sheets]
+                sheet_name = "Coding5sStudentKit" if "Coding5sStudentKit" in nombres_pestanas_stu else \
+                    nombres_pestanas_stu[0]
+                ws_student = wb_student.Sheets(sheet_name)
 
-                ws_est.Range("B9:Y200").WrapText = False
-                ws_est.Range("G2:G3").WrapText = False
-                if ws_est.AutoFilterMode: ws_est.AutoFilterMode = False
+                # Inyectar idioma en B3
+                ws_student.Range("B3").Value = idioma_objetivo
 
-                wb_est.Protect(Password=password_gracias, Structure=True, Windows=False)
-                wb_est.Close(True)
-                exitosos += 1
-                callback_log(f"  ✅ Student Kit synced successfully.\n")
+                # 🔥 NUEVO: Inyectar el rango adicional I2:I3 en G2:G3 (solo valores)
+                ws_student.Range("G2:G3").Value = valores_i2_i3
+
+                # Calcular las dimensiones exactas para evitar que Excel rellene columnas extra con #N/A
+                filas = len(valores_limpios)
+                columnas = len(valores_limpios[0]) if filas > 0 else 0
+
+                # B9 equivale a Fila 9, Columna 2
+                celda_inicio = ws_student.Cells(9, 2)
+                # LÍNEA CORREGIDA: Ahora calcula dinámicamente desde la columna 2 hasta la 22 (V)
+                celda_fin = ws_student.Cells(8 + filas, celda_inicio.Column + columnas - 1)
+                rango_destino = ws_student.Range(celda_inicio, celda_fin)
+
+                # Volcar los datos puros y desactivar el WrapText
+                rango_destino.Value = valores_limpios
+                rango_destino.WrapText = False
+
+                # Proteger la estructura del libro
+                wb_student.Protect(Password="wil", Structure=True, Windows=False)
+
+                wb_student.Save()
+                wb_student.Close(True)
+
+                callback_log("  ✅ Student Kit successfully created, populated, formatted, and protected.\n")
 
             except Exception as e:
-                if wb_creator: wb_creator.Close(False)
-                if wb_est: wb_est.Close(False)
-                fallidos += 1
-                callback_log(f"  ❌ Error generating {nombre_student_esperado}. Details: {e}\n")
+                callback_log(f"  ❌ Exception: {str(e)}\n")
+                if 'wb_creator' in locals() and wb_creator:
+                    try:
+                        wb_creator.Close(False)
+                    except:
+                        pass
+                if 'wb_student' in locals() and wb_student:
+                    try:
+                        wb_student.Close(False)
+                    except:
+                        pass
+                exito_global = False
 
-        callback_log(f"\n✅ PROCESS FINISHED: {exitosos} Successful, {fallidos} Failed.\n")
-        return True
-
-    except Exception as e:
-        callback_log(f"❌ [GLOBAL ERROR STUDENT KITS]: {e}\n")
-        return False
+        return exito_global
     finally:
         if excel:
             try:
